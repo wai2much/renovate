@@ -1,11 +1,7 @@
 import { logger } from '../logger';
 import { isSkipComment } from './ignore';
 
-jest.mock('../logger', () => ({
-  logger: {
-    debug: jest.fn(),
-  },
-}));
+jest.mock('../logger', () => ({ logger: { debug: jest.fn() } }));
 
 describe('util/ignore', () => {
   it('returns true for "renovate:ignore" comments', () => {

@@ -11,9 +11,7 @@ export type ItemsEntity = {
   issueType: 'Bug' | 'Feature';
 };
 
-export type LabelsEntity = {
-  name: string;
-};
+export type LabelsEntity = { name: string };
 
 export interface RenovateOpenItems {
   managers: OpenItems;
@@ -33,11 +31,7 @@ const GhOutputSchema = z.array(
   z.object({
     url: z.string(),
     title: z.string(),
-    labels: z.array(
-      z.object({
-        name: z.string(),
-      }),
-    ),
+    labels: z.array(z.object({ name: z.string() })),
     number: z.number(),
   }),
 );

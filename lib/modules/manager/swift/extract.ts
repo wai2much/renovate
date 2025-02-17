@@ -143,9 +143,7 @@ export function extractPackageFile(content: string): PackageFileContent | null {
   }
 
   const deps: PackageDependency[] = [];
-  const result: PackageFileContent = {
-    deps,
-  };
+  const result: PackageFileContent = { deps };
 
   let restStr = content;
   let state: string | null = null;

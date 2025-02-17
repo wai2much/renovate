@@ -358,13 +358,7 @@ export class HttpStats {
       };
     }
 
-    return {
-      urls,
-      rawRequests,
-      hostRequests,
-      hosts,
-      requests,
-    };
+    return { urls, rawRequests, hostRequests, hosts, requests };
   }
 
   static report(): void {
@@ -399,12 +393,7 @@ export class HttpCacheStats {
   }
 
   static read(key: string): HttpCacheHostStatsData {
-    return (
-      this.getData()?.[key] ?? {
-        hit: 0,
-        miss: 0,
-      }
-    );
+    return this.getData()?.[key] ?? { hit: 0, miss: 0 };
   }
 
   static write(key: string, data: HttpCacheHostStatsData): void {

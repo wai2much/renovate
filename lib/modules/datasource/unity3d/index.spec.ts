@@ -209,9 +209,7 @@ describe('modules/datasource/unity3d/index', () => {
     expect(responsesWithHash).toEqual(
       expect.objectContaining({
         releases: expect.arrayContaining([
-          expect.objectContaining({
-            version: expect.stringMatching(/\(.*\)/),
-          }),
+          expect.objectContaining({ version: expect.stringMatching(/\(.*\)/) }),
         ]),
         homepage: 'https://unity.com/',
         registryUrl: Unity3dDatasource.streams.stable,
@@ -230,9 +228,7 @@ describe('modules/datasource/unity3d/index', () => {
     expect(responsesWithoutHash).toEqual(
       expect.objectContaining({
         releases: expect.not.arrayContaining([
-          expect.objectContaining({
-            version: expect.stringMatching(/\(.*\)/),
-          }),
+          expect.objectContaining({ version: expect.stringMatching(/\(.*\)/) }),
         ]),
         homepage: 'https://unity.com/',
         registryUrl: Unity3dDatasource.streams.stable,

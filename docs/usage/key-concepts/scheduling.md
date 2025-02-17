@@ -53,9 +53,7 @@ If you want Renovate to use your local time, use the `timezone` configuration op
 The timezone must be a valid [IANA time zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 ```json title="Setting a specific timezone in your local config file"
-{
-  "timezone": "America/Los_Angeles"
-}
+{ "timezone": "America/Los_Angeles" }
 ```
 
 Also read the [`timezone` config option docs](../configuration-options.md#timezone).
@@ -92,10 +90,7 @@ Do not set schedules like "Run Renovate for an hour each Sunday" as you _will_ r
 Some config examples:
 
 ```json title="Renovate should run each day before 4 am"
-{
-  "description": "Schedule daily before 4 AM",
-  "schedule": ["* 0-3 * * *"]
-}
+{ "description": "Schedule daily before 4 AM", "schedule": ["* 0-3 * * *"] }
 ```
 
 ```json title="Renovate should run outside of common office hours"

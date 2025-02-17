@@ -14,9 +14,7 @@ jest.mock('fs-extra');
 const exec = mocked(_exec);
 const fs = mocked(_fs);
 
-const globalConfig: RepoGlobalConfig = {
-  localDir: '',
-};
+const globalConfig: RepoGlobalConfig = { localDir: '' };
 
 describe('modules/manager/bun/artifacts', () => {
   describe('updateArtifacts()', () => {
@@ -68,13 +66,7 @@ describe('modules/manager/bun/artifacts', () => {
         const newLock = Buffer.from('new');
         fs.readFile.mockResolvedValueOnce(newLock as never);
         expect(await updateArtifacts(updateArtifact)).toEqual([
-          {
-            file: {
-              path: 'bun.lockb',
-              type: 'addition',
-              contents: newLock,
-            },
-          },
+          { file: { path: 'bun.lockb', type: 'addition', contents: newLock } },
         ]);
       });
 
@@ -88,13 +80,7 @@ describe('modules/manager/bun/artifacts', () => {
         const newLock = Buffer.from('new');
         fs.readFile.mockResolvedValueOnce(newLock as never);
         expect(await updateArtifacts(updateArtifact)).toEqual([
-          {
-            file: {
-              path: 'bun.lockb',
-              type: 'addition',
-              contents: newLock,
-            },
-          },
+          { file: { path: 'bun.lockb', type: 'addition', contents: newLock } },
         ]);
       });
 
@@ -162,13 +148,7 @@ describe('modules/manager/bun/artifacts', () => {
         const newLock = Buffer.from('new');
         fs.readFile.mockResolvedValueOnce(newLock as never);
         expect(await updateArtifacts(updateArtifact)).toEqual([
-          {
-            file: {
-              path: 'bun.lock',
-              type: 'addition',
-              contents: newLock,
-            },
-          },
+          { file: { path: 'bun.lock', type: 'addition', contents: newLock } },
         ]);
       });
 
@@ -182,13 +162,7 @@ describe('modules/manager/bun/artifacts', () => {
         const newLock = Buffer.from('new');
         fs.readFile.mockResolvedValueOnce(newLock as never);
         expect(await updateArtifacts(updateArtifact)).toEqual([
-          {
-            file: {
-              path: 'bun.lock',
-              type: 'addition',
-              contents: newLock,
-            },
-          },
+          { file: { path: 'bun.lock', type: 'addition', contents: newLock } },
         ]);
       });
 
@@ -304,11 +278,7 @@ describe('modules/manager/bun/artifacts', () => {
           expect(exec).toHaveBeenCalledWith(testCase.expectedCmd, {
             cwdFile: '',
             docker: {},
-            toolConstraints: [
-              {
-                toolName: 'bun',
-              },
-            ],
+            toolConstraints: [{ toolName: 'bun' }],
             userConfiguredEnv: undefined,
           });
 

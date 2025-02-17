@@ -143,12 +143,7 @@ describe('modules/datasource/maven/index', () => {
     mockGenericPackage({
       meta: Fixtures.get('metadata-snapshot-only.xml'),
       latest: '1.0.3-SNAPSHOT',
-      snapshots: [
-        {
-          version: '1.0.3-SNAPSHOT',
-          meta,
-        },
-      ],
+      snapshots: [{ version: '1.0.3-SNAPSHOT', meta }],
     });
 
     const res = await get();
@@ -175,12 +170,7 @@ describe('modules/datasource/maven/index', () => {
       meta: Fixtures.get('metadata-snapshot-only.xml'),
       pom: null,
       latest: '1.0.3-SNAPSHOT',
-      snapshots: [
-        {
-          version: '1.0.3-SNAPSHOT',
-          meta,
-        },
-      ],
+      snapshots: [{ version: '1.0.3-SNAPSHOT', meta }],
     });
 
     const res = await get();
@@ -402,14 +392,10 @@ describe('modules/datasource/maven/index', () => {
       .scope(frontendUrl)
       .get(metadataPath)
       .basicAuth({ user: 'username', pass: 'password' })
-      .reply(302, '', {
-        Location: `${backendUrl}${metadataPath}${queryStr}`,
-      })
+      .reply(302, '', { Location: `${backendUrl}${metadataPath}${queryStr}` })
       .get(pomfilePath)
       .basicAuth({ user: 'username', pass: 'password' })
-      .reply(302, '', {
-        Location: `${backendUrl}${pomfilePath}${queryStr}`,
-      });
+      .reply(302, '', { Location: `${backendUrl}${pomfilePath}${queryStr}` });
     httpMock
       .scope(backendUrl, { badheaders: ['authorization'] })
       .get(`${metadataPath}${queryStr}`)
@@ -445,9 +431,11 @@ describe('modules/datasource/maven/index', () => {
       .reply(200, Fixtures.get('pom.xml'));
 
     googleAuth.mockImplementation(
-      jest.fn().mockImplementation(() => ({
-        getAccessToken: jest.fn().mockResolvedValue('some-token'),
-      })),
+      jest
+        .fn()
+        .mockImplementation(() => ({
+          getAccessToken: jest.fn().mockResolvedValue('some-token'),
+        })),
     );
 
     const res = await get('org.example:package', baseUrlAR);
@@ -490,9 +478,11 @@ describe('modules/datasource/maven/index', () => {
       .reply(200, Fixtures.get('pom.xml'));
 
     googleAuth.mockImplementation(
-      jest.fn().mockImplementation(() => ({
-        getAccessToken: jest.fn().mockResolvedValue(undefined),
-      })),
+      jest
+        .fn()
+        .mockImplementation(() => ({
+          getAccessToken: jest.fn().mockResolvedValue(undefined),
+        })),
     );
 
     const res = await get('org.example:package', baseUrlAR);
@@ -580,10 +570,7 @@ describe('modules/datasource/maven/index', () => {
         latest: '2.0.0',
       };
 
-      mockGenericPackage({
-        ...childPomMock,
-        meta: childMeta,
-      });
+      mockGenericPackage({ ...childPomMock, meta: childMeta });
       mockGenericPackage(parentPomMock);
       mockGenericPackage(childPomMock);
       mockGenericPackage(parentPomMock);

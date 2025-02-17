@@ -22,9 +22,7 @@ describe('workers/repository/config-migration/branch/rebase', () => {
   );
 
   beforeEach(() => {
-    GlobalConfig.set({
-      localDir: '',
-    });
+    GlobalConfig.set({ localDir: '' });
   });
 
   describe('rebaseMigrationBranch()', () => {
@@ -101,13 +99,7 @@ describe('workers/repository/config-migration/branch/rebase', () => {
         expect(scm.commitAndPush).toHaveBeenCalledTimes(1);
         expect(scm.commitAndPush).toHaveBeenCalledWith({
           branchName: 'renovate/migrate-config',
-          files: [
-            {
-              type: 'addition',
-              path: filename,
-              contents: formatted,
-            },
-          ],
+          files: [{ type: 'addition', path: filename, contents: formatted }],
           message: `Migrate config ${filename}`,
           platformCommit: 'auto',
           baseBranch: 'dev',
@@ -121,9 +113,7 @@ describe('workers/repository/config-migration/branch/rebase', () => {
     ])(
       'does not rebases migration branch when in dryRun is on (%s)',
       async (filename, rawConfig) => {
-        GlobalConfig.set({
-          dryRun: 'full',
-        });
+        GlobalConfig.set({ dryRun: 'full' });
         scm.isBranchBehindBase.mockResolvedValueOnce(true);
         migratedConfigData.filename = filename;
         migratedConfigData.content = rawConfig;

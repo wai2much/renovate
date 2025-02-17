@@ -34,9 +34,7 @@ describe('modules/manager/bazel-module/context', () => {
       expect(ctx.results).toEqual([
         fragments.rule(
           'bazel_dep',
-          {
-            name: fragments.string('rules_foo'),
-          },
+          { name: fragments.string('rules_foo') },
           true,
         ),
       ]);

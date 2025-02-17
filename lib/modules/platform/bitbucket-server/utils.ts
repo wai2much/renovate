@@ -96,10 +96,7 @@ export async function accumulateValues<T = any>(
     const { search, ...parsedUrl } = url.parse(nextUrl, true);
     nextUrl = url.format({
       ...parsedUrl,
-      query: {
-        ...parsedUrl.query,
-        start: body.nextPageStart,
-      },
+      query: { ...parsedUrl.query, start: body.nextPageStart },
     });
   }
 
@@ -212,9 +209,7 @@ export function getRepoGitUrl(
 
 export function getExtraCloneOpts(opts: HostRule): GitOptions {
   if (opts.token) {
-    return {
-      '-c': `http.extraheader=Authorization: Bearer ${opts.token}`,
-    };
+    return { '-c': `http.extraheader=Authorization: Bearer ${opts.token}` };
   }
   return {};
 }

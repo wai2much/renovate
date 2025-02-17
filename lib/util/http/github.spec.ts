@@ -68,9 +68,7 @@ describe('util/http/github', () => {
     it('supports app mode', async () => {
       hostRules.add({ hostType: 'github', token: 'x-access-token:123test' });
       httpMock.scope(githubApiHost).get('/some-url').reply(200);
-      await githubApi.get('/some-url', {
-        headers: { accept: 'some-accept' },
-      });
+      await githubApi.get('/some-url', { headers: { accept: 'some-accept' } });
       const [req] = httpMock.getTrace();
       expect(req).toBeDefined();
       expect(req.headers.accept).toBe(
@@ -82,10 +80,7 @@ describe('util/http/github', () => {
     it('supports different datasources', async () => {
       const githubApiDatasource = new GithubHttp(GithubReleasesDatasource.id);
       hostRules.add({ hostType: 'github', token: 'abc' });
-      hostRules.add({
-        hostType: GithubReleasesDatasource.id,
-        token: 'def',
-      });
+      hostRules.add({ hostType: GithubReleasesDatasource.id, token: 'def' });
       httpMock.scope(githubApiHost).get('/some-url').reply(200);
       await githubApiDatasource.get('/some-url');
       const [req] = httpMock.getTrace();
@@ -119,17 +114,13 @@ describe('util/http/github', () => {
         .reply(
           200,
           { the_field: ['a'], total: 4 },
-          {
-            link: `<${url}?page=2>; rel="next", <${url}?page=3>; rel="last"`,
-          },
+          { link: `<${url}?page=2>; rel="next", <${url}?page=3>; rel="last"` },
         )
         .get(`${url}?page=2`)
         .reply(
           200,
           { the_field: ['b', 'c'], total: 4 },
-          {
-            link: `<${url}?page=3>; rel="next", <${url}?page=3>; rel="last"`,
-          },
+          { link: `<${url}?page=3>; rel="next", <${url}?page=3>; rel="last"` },
         )
         .get(`${url}?page=3`)
         .reply(200, { the_field: ['d'], total: 4 });
@@ -210,9 +201,7 @@ describe('util/http/github', () => {
         paginate: true,
         repository: 'some/repo',
         baseUrl: 'https://github.domain.com',
-        headers: {
-          accept: 'application/vnd.github.antiope-preview+json',
-        },
+        headers: { accept: 'application/vnd.github.antiope-preview+json' },
       });
       expect(res.body).toEqual(['a', 'b', 'c', 'd', 'e']);
     });
@@ -222,9 +211,7 @@ describe('util/http/github', () => {
       httpMock
         .scope(githubApiHost)
         .get(url)
-        .reply(200, ['a'], {
-          link: `<${url}?page=34>; rel="last"`,
-        });
+        .reply(200, ['a'], { link: `<${url}?page=34>; rel="last"` });
       const res = await githubApi.getJsonUnchecked('some-url', {
         paginate: true,
       });
@@ -255,9 +242,7 @@ describe('util/http/github', () => {
         })
         .get(`${apiUrl}&page=3`)
         .reply(200, ['e']);
-      const res = await githubApi.getJsonUnchecked(apiUrl, {
-        paginate: true,
-      });
+      const res = await githubApi.getJsonUnchecked(apiUrl, { paginate: true });
       expect(res.body).toEqual(['a', 'b', 'c', 'd', 'e']);
     });
 
@@ -277,9 +262,7 @@ describe('util/http/github', () => {
         })
         .get(`${apiUrl}&page=3`)
         .reply(200, ['e']);
-      const res = await githubApi.getJsonUnchecked(apiUrl, {
-        paginate: true,
-      });
+      const res = await githubApi.getJsonUnchecked(apiUrl, { paginate: true });
       expect(res.body).toEqual(['a', 'b', 'c', 'd', 'e']);
     });
 
@@ -301,9 +284,7 @@ describe('util/http/github', () => {
         })
         .get(`/${apiUrl}&page=3`)
         .reply(200, ['e']);
-      const res = await githubApi.getJsonUnchecked(apiUrl, {
-        paginate: true,
-      });
+      const res = await githubApi.getJsonUnchecked(apiUrl, { paginate: true });
       expect(res.body).toEqual(['a', 'b', 'c', 'd', 'e']);
     });
 
@@ -380,9 +361,7 @@ describe('util/http/github', () => {
           fail(
             401,
             { message: 'Bad credentials. (401)' },
-            {
-              'x-ratelimit-limit': '60',
-            },
+            { 'x-ratelimit-limit': '60' },
           ),
         ).rejects.toThrow(EXTERNAL_HOST_ERROR);
       });
@@ -429,19 +408,14 @@ describe('util/http/github', () => {
 
       it('should throw on repository change', async () => {
         await expect(
-          fail(422, {
-            message: 'foobar',
-            errors: [{ code: 'invalid' }],
-          }),
+          fail(422, { message: 'foobar', errors: [{ code: 'invalid' }] }),
         ).rejects.toThrow(REPOSITORY_CHANGED);
       });
 
       it('should throw platform failure on 422 response', async () => {
-        await expect(
-          fail(422, {
-            message: 'foobar',
-          }),
-        ).rejects.toThrow(EXTERNAL_HOST_ERROR);
+        await expect(fail(422, { message: 'foobar' })).rejects.toThrow(
+          EXTERNAL_HOST_ERROR,
+        );
       });
 
       it('should throw original error when failed to add reviewers', async () => {
@@ -465,9 +439,7 @@ describe('util/http/github', () => {
 
       it('should throw original error of unknown type', async () => {
         await expect(
-          fail(418, {
-            message: 'Sorry, this is a teapot',
-          }),
+          fail(418, { message: 'Sorry, this is a teapot' }),
         ).rejects.toThrow('Sorry, this is a teapot');
       });
 
@@ -498,10 +470,7 @@ describe('util/http/github', () => {
       data: {
         repository: {
           testItem: {
-            pageInfo: {
-              endCursor: 'cursor1',
-              hasNextPage: true,
-            },
+            pageInfo: { endCursor: 'cursor1', hasNextPage: true },
             nodes: [
               {
                 number: 1,
@@ -519,10 +488,7 @@ describe('util/http/github', () => {
       data: {
         repository: {
           testItem: {
-            pageInfo: {
-              endCursor: 'cursor2',
-              hasNextPage: true,
-            },
+            pageInfo: { endCursor: 'cursor2', hasNextPage: true },
             nodes: [
               {
                 number: 2,
@@ -540,10 +506,7 @@ describe('util/http/github', () => {
       data: {
         repository: {
           testItem: {
-            pageInfo: {
-              endCursor: 'cursor3',
-              hasNextPage: false,
-            },
+            pageInfo: { endCursor: 'cursor3', hasNextPage: false },
             nodes: [
               {
                 number: 3,
@@ -590,11 +553,7 @@ describe('util/http/github', () => {
       httpMock
         .scope(githubApiHost)
         .post('/graphql')
-        .reply(200, {
-          data: {
-            someprop: 'someval',
-          },
-        });
+        .reply(200, { data: { someprop: 'someval' } });
       expect(
         await githubApi.queryRepoField(graphqlQuery, 'testItem', {
           paginate: false,
@@ -606,9 +565,7 @@ describe('util/http/github', () => {
       httpMock
         .scope(githubApiHost)
         .post('/graphql')
-        .reply(200, {
-          data: { repository: { otherField: 'someval' } },
-        });
+        .reply(200, { data: { repository: { otherField: 'someval' } } });
       expect(
         await githubApi.queryRepoField(graphqlQuery, 'testItem', {
           paginate: false,
@@ -619,9 +576,7 @@ describe('util/http/github', () => {
     it('throws errors for invalid responses', async () => {
       httpMock.scope(githubApiHost).post('/graphql').reply(418);
       await expect(
-        githubApi.queryRepoField(graphqlQuery, 'someItem', {
-          paginate: false,
-        }),
+        githubApi.queryRepoField(graphqlQuery, 'someItem', { paginate: false }),
       ).rejects.toThrow("Response code 418 (I'm a Teapot)");
     });
 
@@ -630,21 +585,14 @@ describe('util/http/github', () => {
         .scope(githubApiHost)
         .persist()
         .post('/graphql')
-        .reply(200, {
-          data: {
-            someprop: 'someval',
-          },
-        });
+        .reply(200, { data: { someprop: 'someval' } });
       expect(
         await githubApi.queryRepoField(graphqlQuery, 'testItem'),
       ).toMatchInlineSnapshot(`[]`);
     });
 
     it('queryRepo', async () => {
-      const repository = {
-        foo: 'foo',
-        bar: 'bar',
-      };
+      const repository = { foo: 'foo', bar: 'bar' };
       httpMock
         .scope(githubApiHost)
         .post('/graphql')
@@ -686,10 +634,7 @@ describe('util/http/github', () => {
       repoCache.platform ??= {};
       repoCache.platform.github ??= {};
       repoCache.platform.github.graphqlPageCache = {
-        testItem: {
-          pageLastResizedAt: DateTime.local().toISO(),
-          pageSize: 50,
-        },
+        testItem: { pageLastResizedAt: DateTime.local().toISO(), pageSize: 50 },
       };
 
       httpMock
@@ -789,9 +734,7 @@ describe('util/http/github', () => {
     it('throws on 50x if count < 10', async () => {
       httpMock.scope(githubApiHost).post('/graphql').reply(500);
       await expect(
-        githubApi.queryRepoField(graphqlQuery, 'testItem', {
-          count: 9,
-        }),
+        githubApi.queryRepoField(graphqlQuery, 'testItem', { count: 9 }),
       ).rejects.toThrow(EXTERNAL_HOST_ERROR);
     });
   });
@@ -810,9 +753,7 @@ describe('util/http/github', () => {
         githubApi.getRawTextFile(
           `${githubApiHost}/foo/bar/contents/lore/ipsum.txt`,
         ),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support relative path', async () => {
@@ -828,9 +769,7 @@ describe('util/http/github', () => {
         githubApi.getRawTextFile(
           `${githubApiHost}/foo/bar/contents/foo/../lore/ipsum.txt`,
         ),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support default to api.github.com if no baseURL has been supplied', async () => {
@@ -844,9 +783,7 @@ describe('util/http/github', () => {
         .reply(200, 'foo');
       await expect(
         githubApi.getRawTextFile(`foo/bar/contents/lore/ipsum.txt`),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support custom host if a baseURL has been supplied', async () => {
@@ -863,9 +800,7 @@ describe('util/http/github', () => {
         githubApi.getRawTextFile(`foo/bar/contents/lore/ipsum.txt`, {
           baseUrl: customApiHost,
         }),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support default to api.github.com if no baseURL, but repository has been supplied', async () => {
@@ -878,12 +813,8 @@ describe('util/http/github', () => {
         )
         .reply(200, 'foo');
       await expect(
-        githubApi.getRawTextFile(`lore/ipsum.txt`, {
-          repository: 'foo/bar',
-        }),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+        githubApi.getRawTextFile(`lore/ipsum.txt`, { repository: 'foo/bar' }),
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support custom host if a baseURL and repository has been supplied', async () => {
@@ -901,9 +832,7 @@ describe('util/http/github', () => {
           baseUrl: customApiHost,
           repository: 'foo/bar',
         }),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support default to api.github.com if content path is used', async () => {
@@ -917,9 +846,7 @@ describe('util/http/github', () => {
         .reply(200, 'foo');
       await expect(
         githubApi.getRawTextFile(`foo/bar/contents/lore/ipsum.txt`),
-      ).resolves.toMatchObject({
-        body: 'foo',
-      });
+      ).resolves.toMatchObject({ body: 'foo' });
     });
 
     it('support custom host if content path is used', async () => {
@@ -936,9 +863,7 @@ describe('util/http/github', () => {
         githubApi.getRawTextFile(`foo/bar/contents/lore/ipsum.txt`, {
           baseUrl: customApiHost,
         }),
-      ).resolves.toMatchObject({
-        body: 'test',
-      });
+      ).resolves.toMatchObject({ body: 'test' });
     });
 
     it('throw error if a ', async () => {

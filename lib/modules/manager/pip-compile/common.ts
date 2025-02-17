@@ -56,14 +56,8 @@ export async function getExecOptions(
     docker: {},
     userConfiguredEnv: config.env,
     toolConstraints: [
-      {
-        toolName: 'python',
-        constraint,
-      },
-      {
-        toolName: 'pip-tools',
-        constraint: pipToolsConstraint,
-      },
+      { toolName: 'python', constraint },
+      { toolName: 'pip-tools', constraint: pipToolsConstraint },
     ],
     extraEnv: {
       PIP_CACHE_DIR: await ensureCacheDir('pip'),
@@ -218,12 +212,7 @@ export function extractHeaderCommand(
 
     logger.debug({ option: arg }, `pip-compile: option not handled`);
   }
-  logger.trace(
-    {
-      ...result,
-    },
-    'Parsed pip-compile command from header',
-  );
+  logger.trace({ ...result }, 'Parsed pip-compile command from header');
   if (result.noEmitIndexUrl && result.emitIndexUrl) {
     throw new Error('Cannot use both --no-emit-index-url and --emit-index-url');
   }
@@ -338,10 +327,7 @@ export function getRegistryCredVarsFromPackageFiles(
   let allCreds: ExtraEnv<string> = {};
   for (const [index, host] of [...uniqueHosts].entries()) {
     const hostCreds = getRegistryCredEnvVars(host, index);
-    allCreds = {
-      ...allCreds,
-      ...hostCreds,
-    };
+    allCreds = { ...allCreds, ...hostCreds };
   }
 
   return allCreds;

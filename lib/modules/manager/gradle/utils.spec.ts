@@ -181,9 +181,7 @@ describe('modules/manager/gradle/utils', () => {
         baz: { key: 'baz', value: 'BAZ' },
         qux: { key: 'qux', value: 'QUX' },
       },
-      [toAbsolutePath('/foo/bar')]: {
-        foo: { key: 'foo', value: 'foo' },
-      },
+      [toAbsolutePath('/foo/bar')]: { foo: { key: 'foo', value: 'foo' } },
       [toAbsolutePath('/foo/bar/baz')]: {
         bar: { key: 'bar', value: 'bar' },
         baz: { key: 'baz', value: 'baz' },
@@ -201,9 +199,7 @@ describe('modules/manager/gradle/utils', () => {
   describe('updateVars', () => {
     it('empty registry', () => {
       const registry: VariableRegistry = {};
-      const newVars: PackageVariables = {
-        qux: { key: 'qux', value: 'qux' },
-      };
+      const newVars: PackageVariables = { qux: { key: 'qux', value: 'qux' } };
       updateVars(registry, '/foo/bar/baz', newVars);
       expect(registry).toStrictEqual({ '/foo/bar/baz': newVars });
     });

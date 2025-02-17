@@ -86,11 +86,7 @@ export type ValueFragments = z.infer<typeof ValueFragmentsSchema>;
 export type ResultFragment = RuleFragment | ExtensionTagFragment;
 
 export function string(value: string): StringFragment {
-  return {
-    type: 'string',
-    isComplete: true,
-    value,
-  };
+  return { type: 'string', isComplete: true, value };
 }
 
 export function boolean(value: string | boolean): BooleanFragment {
@@ -106,12 +102,7 @@ export function rule(
   children: ChildFragments = {},
   isComplete = false,
 ): RuleFragment {
-  return {
-    type: 'rule',
-    rule,
-    isComplete,
-    children,
-  };
+  return { type: 'rule', rule, isComplete, children };
 }
 
 export function preparedExtensionTag(
@@ -148,23 +139,14 @@ export function attribute(
   value?: ValueFragments,
   isComplete = false,
 ): AttributeFragment {
-  return {
-    type: 'attribute',
-    name,
-    value,
-    isComplete,
-  };
+  return { type: 'attribute', name, value, isComplete };
 }
 
 export function array(
   items: PrimitiveFragments[] = [],
   isComplete = false,
 ): ArrayFragment {
-  return {
-    type: 'array',
-    items,
-    isComplete,
-  };
+  return { type: 'array', items, isComplete };
 }
 
 export function isValue(data: unknown): data is ValueFragments {

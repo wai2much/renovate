@@ -23,10 +23,7 @@ function hashReleases(releases: ReleaseResult): string {
 }
 
 type CacheNotFoundError = { type: 'cache-not-found' };
-type CacheStaleError = {
-  type: 'cache-stale';
-  cache: CacheRecord;
-};
+type CacheStaleError = { type: 'cache-stale'; cache: CacheRecord };
 type CacheInvalidError = { type: 'cache-invalid' };
 type CacheLoadError = CacheNotFoundError | CacheStaleError;
 type CacheError = CacheNotFoundError | CacheStaleError | CacheInvalidError;
@@ -74,10 +71,7 @@ export class MetadataCache {
           ): Promise<Result<ReleaseResult, CacheError>> => {
             const dataHash = hashReleases(data);
             if (dataHash === versionsHash) {
-              await saveCache({
-                hash: dataHash,
-                data,
-              });
+              await saveCache({ hash: dataHash, data });
               return Result.ok(data);
             }
 

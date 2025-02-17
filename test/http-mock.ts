@@ -27,10 +27,7 @@ type BasePath = string | RegExp | Url;
 let requestsDone: RequestLog[] = [];
 let requestsMissing: MissingRequestLog[] = [];
 
-type TestRequest = {
-  method: string;
-  href: string;
-};
+type TestRequest = { method: string; href: string };
 
 function onMissing(req: TestRequest, opts?: TestRequest): void {
   if (opts) {

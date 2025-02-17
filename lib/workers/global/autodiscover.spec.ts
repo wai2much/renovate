@@ -44,9 +44,7 @@ describe('workers/global/autodiscover', () => {
   it('autodiscovers github but empty', async () => {
     config.autodiscover = true;
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() => Promise.resolve([]));
     const res = await autodiscoverRepositories(config);
     expect(res).toEqual(config);
@@ -55,9 +53,7 @@ describe('workers/global/autodiscover', () => {
   it('autodiscovers github repos', async () => {
     config.autodiscover = true;
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() => Promise.resolve(['a', 'b']));
     const res = await autodiscoverRepositories(config);
     expect(res.repositories).toHaveLength(2);
@@ -67,9 +63,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['project/re*'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/another-repo']),
     );
@@ -81,9 +75,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['project/*'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/.github']),
     );
@@ -95,9 +87,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['project/re*'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['another-project/repo', 'another-project/another-repo']),
     );
@@ -109,9 +99,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['/project/RE*./i'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/another-repo']),
     );
@@ -123,9 +111,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['!/project/re*./'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/another-repo']),
     );
@@ -137,9 +123,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = '!project/re*';
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/another-repo']),
     );
@@ -151,9 +135,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['/project/re**./'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'project/another-repo']),
     );
@@ -164,9 +146,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['another-project/re*', 'department/dev/*'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     // retains order
     const expectedRepositories = [
       'department/dev/aProject',
@@ -187,9 +167,7 @@ describe('workers/global/autodiscover', () => {
     config.autodiscover = true;
     config.autodiscoverFilter = ['project/re*'];
     config.platform = 'github';
-    hostRules.find = jest.fn(() => ({
-      token: 'abc',
-    }));
+    hostRules.find = jest.fn(() => ({ token: 'abc' }));
     ghApi.getRepos = jest.fn(() =>
       Promise.resolve(['project/repo', 'PROJECT/repo2']),
     );

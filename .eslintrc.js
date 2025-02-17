@@ -1,8 +1,6 @@
 module.exports = {
   root: true,
-  env: {
-    node: true,
-  },
+  env: { node: true },
   plugins: ['@renovate', 'typescript-enum', 'jest-formatting'],
   extends: [
     'eslint:recommended',
@@ -69,14 +67,7 @@ module.exports = {
 
     // mdast is a types only package `@types/mdast`
     'import/no-unresolved': ['error', { ignore: ['^mdast$'] }],
-    'import/order': [
-      'error',
-      {
-        alphabetize: {
-          order: 'asc',
-        },
-      },
-    ],
+    'import/order': ['error', { alphabetize: { order: 'asc' } }],
 
     // disallow direct `nock` module usage as it causes memory issues.
     // disallow `parse-link-header` to allow override ENV https://github.com/thlorenz/parse-link-header#environmental-variables
@@ -107,11 +98,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/no-unused-vars': [
       2,
-      {
-        vars: 'all',
-        args: 'none',
-        ignoreRestSiblings: true,
-      },
+      { vars: 'all', args: 'none', ignoreRestSiblings: true },
     ],
     '@typescript-eslint/prefer-optional-chain': 2,
     '@typescript-eslint/prefer-nullish-coalescing': 2,
@@ -134,10 +121,7 @@ module.exports = {
 
     '@typescript-eslint/naming-convention': [
       2,
-      {
-        selector: 'enumMember',
-        format: ['PascalCase'],
-      },
+      { selector: 'enumMember', format: ['PascalCase'] },
     ],
 
     '@typescript-eslint/unbound-method': [2, { ignoreStatic: true }],
@@ -149,18 +133,10 @@ module.exports = {
 
     'typescript-enum/no-const-enum': 2,
     'typescript-enum/no-enum': 2,
-    'object-shorthand': [
-      'error',
-      'always',
-      {
-        avoidQuotes: true,
-      },
-    ],
+    'object-shorthand': ['error', 'always', { avoidQuotes: true }],
   },
   settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts'],
-    },
+    'import/parsers': { '@typescript-eslint/parser': ['.ts'] },
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
@@ -175,9 +151,7 @@ module.exports = {
     },
     {
       files: ['**/*.spec.ts', 'test/**'],
-      env: {
-        jest: true,
-      },
+      env: { jest: true },
       rules: {
         'no-template-curly-in-string': 0,
         'prefer-destructuring': 0,
@@ -206,9 +180,7 @@ module.exports = {
     },
     {
       files: ['tools/**/*.{ts,js,mjs,cjs}'],
-      env: {
-        node: true,
-      },
+      env: { node: true },
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
@@ -233,12 +205,8 @@ module.exports = {
     },
     {
       files: ['tools/docs/test/**/*.mjs'],
-      env: {
-        jest: false,
-      },
-      rules: {
-        '@typescript-eslint/no-floating-promises': 0,
-      },
+      env: { jest: false },
+      rules: { '@typescript-eslint/no-floating-promises': 0 },
     },
   ],
 };

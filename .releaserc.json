@@ -6,12 +6,7 @@
       "@semantic-release/github",
       {
         "releasedLabels": false,
-        "assets": [
-          {
-            "path": "tmp/docs.tgz",
-            "label": "docs.tgz"
-          }
-        ]
+        "assets": [{ "path": "tmp/docs.tgz", "label": "docs.tgz" }]
       }
     ],
     "@semantic-release/npm",
@@ -25,74 +20,27 @@
   ],
   "analyzeCommits": {
     "releaseRules": [
-      {
-        "type": "docs",
-        "scope": "readme.md",
-        "release": "patch"
-      },
-      {
-        "type": "build",
-        "release": "patch"
-      }
+      { "type": "docs", "scope": "readme.md", "release": "patch" },
+      { "type": "build", "release": "patch" }
     ]
   },
   "preset": "conventionalcommits",
   "presetConfig": {
     "types": [
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "feature",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "perf",
-        "section": "Performance Improvements"
-      },
-      {
-        "type": "revert",
-        "section": "Reverts"
-      },
-      {
-        "type": "docs",
-        "section": "Documentation"
-      },
-      {
-        "type": "style",
-        "section": "Styles"
-      },
-      {
-        "type": "chore",
-        "section": "Miscellaneous Chores"
-      },
-      {
-        "type": "refactor",
-        "section": "Code Refactoring"
-      },
-      {
-        "type": "test",
-        "section": "Tests"
-      },
-      {
-        "type": "build",
-        "section": "Build System"
-      },
-      {
-        "type": "ci",
-        "section": "Continuous Integration"
-      }
+      { "type": "feat", "section": "Features" },
+      { "type": "feature", "section": "Features" },
+      { "type": "fix", "section": "Bug Fixes" },
+      { "type": "perf", "section": "Performance Improvements" },
+      { "type": "revert", "section": "Reverts" },
+      { "type": "docs", "section": "Documentation" },
+      { "type": "style", "section": "Styles" },
+      { "type": "chore", "section": "Miscellaneous Chores" },
+      { "type": "refactor", "section": "Code Refactoring" },
+      { "type": "test", "section": "Tests" },
+      { "type": "build", "section": "Build System" },
+      { "type": "ci", "section": "Continuous Integration" }
     ]
   },
   "tagFormat": "${version}",
-  "branches": [
-    {
-      "name": "main"
-    }
-  ]
+  "branches": [{ "name": "main" }]
 }

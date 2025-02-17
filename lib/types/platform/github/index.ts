@@ -1,10 +1,6 @@
 import type { GitTreeNode } from '../../git';
 
-export type GithubGitBase = {
-  sha: string;
-  url: string;
-  size: number;
-};
+export type GithubGitBase = { sha: string; url: string; size: number };
 
 /**
  * https://docs.github.com/en/rest/reference/git#get-a-tree

@@ -23,9 +23,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/some-filename.json`)
-        .reply(200, {
-          content: toBase64('{"from":"api"}'),
-        });
+        .reply(200, { content: toBase64('{"from":"api"}') });
 
       const res = await github.fetchJSONFile(
         'some/repo',
@@ -64,9 +62,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/default.json`)
-        .reply(200, {
-          content: toBase64('not json'),
-        });
+        .reply(200, { content: toBase64('not json') });
 
       await expect(github.getPreset({ repo: 'some/repo' })).rejects.toThrow(
         PRESET_INVALID_JSON,
@@ -77,9 +73,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/default.json`)
-        .reply(200, {
-          content: toBase64('{"foo":"bar"}'),
-        });
+        .reply(200, { content: toBase64('{"foo":"bar"}') });
 
       const content = await github.getPreset({ repo: 'some/repo' });
       expect(content).toEqual({ foo: 'bar' });
@@ -89,9 +83,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/somefile.json`)
-        .reply(200, {
-          content: toBase64('{"somename":{"foo":"bar"}}'),
-        });
+        .reply(200, { content: toBase64('{"somename":{"foo":"bar"}}') });
       const content = await github.getPreset({
         repo: 'some/repo',
         presetName: 'somefile/somename',
@@ -103,9 +95,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/somefile.json`)
-        .reply(200, {
-          content: toBase64('{"foo":"bar"}'),
-        });
+        .reply(200, { content: toBase64('{"foo":"bar"}') });
       const content = await github.getPreset({
         repo: 'some/repo',
         presetName: 'somefile.json',
@@ -117,9 +107,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/somefile.json5`)
-        .reply(200, {
-          content: toBase64('{foo:"bar"}'),
-        });
+        .reply(200, { content: toBase64('{foo:"bar"}') });
       const content = await github.getPreset({
         repo: 'some/repo',
         presetName: 'somefile.json5',
@@ -148,9 +136,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/custom.json`)
-        .reply(200, {
-          content: toBase64('{"foo":"bar"}'),
-        });
+        .reply(200, { content: toBase64('{"foo":"bar"}') });
       const content = await github.getPreset({
         repo: 'some/repo',
         presetName: 'custom',
@@ -162,9 +148,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/path/custom.json`)
-        .reply(200, {
-          content: toBase64('{"foo":"bar"}'),
-        });
+        .reply(200, { content: toBase64('{"foo":"bar"}') });
       const content = await github.getPreset({
         repo: 'some/repo',
         presetName: 'custom',
@@ -177,9 +161,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/somefile.json`)
-        .reply(200, {
-          content: toBase64('{}'),
-        });
+        .reply(200, { content: toBase64('{}') });
       await expect(
         github.getPreset({
           repo: 'some/repo',
@@ -194,9 +176,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/default.json`)
-        .reply(200, {
-          content: toBase64('{"from":"api"}'),
-        });
+        .reply(200, { content: toBase64('{"from":"api"}') });
       expect(
         await github.getPresetFromEndpoint('some/repo', 'default', undefined),
       ).toEqual({ from: 'api' });
@@ -206,9 +186,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope('https://api.github.example.org')
         .get(`${basePath}/default.json`)
-        .reply(200, {
-          content: toBase64('{"from":"api"}'),
-        });
+        .reply(200, { content: toBase64('{"from":"api"}') });
       expect(
         await github
           .getPresetFromEndpoint(
@@ -226,9 +204,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get(`${basePath}/default.json?ref=someTag`)
-        .reply(200, {
-          content: toBase64('{"from":"api"}'),
-        });
+        .reply(200, { content: toBase64('{"from":"api"}') });
       expect(
         await github.getPresetFromEndpoint(
           'some/repo',
@@ -244,9 +220,7 @@ describe('config/presets/github/index', () => {
       httpMock
         .scope('https://api.github.example.org')
         .get(`${basePath}/default.json?ref=someTag`)
-        .reply(200, {
-          content: toBase64('{"from":"api"}'),
-        });
+        .reply(200, { content: toBase64('{"from":"api"}') });
       expect(
         await github
           .getPresetFromEndpoint(

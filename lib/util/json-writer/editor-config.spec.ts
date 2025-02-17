@@ -22,9 +22,7 @@ const defaultConfigFile = configFileNames[0];
 
 describe('util/json-writer/editor-config', () => {
   beforeAll(() => {
-    GlobalConfig.set({
-      localDir: '',
-    });
+    GlobalConfig.set({ localDir: '' });
   });
 
   beforeEach(() => {
@@ -33,9 +31,7 @@ describe('util/json-writer/editor-config', () => {
   });
 
   it('should handle empty .editorconfig file', async () => {
-    Fixtures.mock({
-      '.editorconfig': '',
-    });
+    Fixtures.mock({ '.editorconfig': '' });
     const format = await EditorConfig.getCodeFormat(defaultConfigFile);
 
     expect(format.indentationSize).toBeUndefined();
@@ -44,9 +40,7 @@ describe('util/json-writer/editor-config', () => {
   });
 
   it('should handle global config from .editorconfig', async () => {
-    Fixtures.mock({
-      '.editorconfig': Fixtures.get('.global_editorconfig'),
-    });
+    Fixtures.mock({ '.editorconfig': Fixtures.get('.global_editorconfig') });
     const format = await EditorConfig.getCodeFormat(defaultConfigFile);
     expect(format.indentationSize).toBe(6);
     expect(format.indentationType).toBe('space');
@@ -54,9 +48,7 @@ describe('util/json-writer/editor-config', () => {
   });
 
   it('should return undefined in case of exception', async () => {
-    Fixtures.mock({
-      '.editorconfig': Fixtures.get('.global_editorconfig'),
-    });
+    Fixtures.mock({ '.editorconfig': Fixtures.get('.global_editorconfig') });
     const editorconf = await import('editorconfig');
     jest
       .spyOn(editorconf, 'parse')
@@ -69,9 +61,7 @@ describe('util/json-writer/editor-config', () => {
   });
 
   it('should not handle non json config from .editorconfig', async () => {
-    Fixtures.mock({
-      '.editorconfig': Fixtures.get('.non_json_editorconfig'),
-    });
+    Fixtures.mock({ '.editorconfig': Fixtures.get('.non_json_editorconfig') });
     const format = await EditorConfig.getCodeFormat(defaultConfigFile);
 
     expect(format.indentationSize).toBeUndefined();
@@ -79,9 +69,7 @@ describe('util/json-writer/editor-config', () => {
   });
 
   it('should handle json config from .editorconfig', async () => {
-    Fixtures.mock({
-      '.editorconfig': Fixtures.get('.json_editorconfig'),
-    });
+    Fixtures.mock({ '.editorconfig': Fixtures.get('.json_editorconfig') });
     const format = await EditorConfig.getCodeFormat(defaultConfigFile);
 
     expect(format.indentationType).toBe('tab');

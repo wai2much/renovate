@@ -33,9 +33,5 @@
     "tmp",
     "tools/mkdocs/site"
   ],
-  "ts-node": {
-    "transpileOnly": true,
-    "esm": false,
-    "swc": false
-  }
+  "ts-node": { "transpileOnly": true, "esm": false, "swc": false }
 }

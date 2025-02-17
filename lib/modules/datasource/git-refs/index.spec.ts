@@ -25,10 +25,7 @@ describe('modules/datasource/git-refs/index', () => {
     process.env = {};
 
     // reset git mock
-    gitMock = {
-      env: jest.fn(),
-      listRemote: jest.fn(),
-    };
+    gitMock = { env: jest.fn(), listRemote: jest.fn() };
 
     simpleGitFactoryMock.mockReturnValue(gitMock);
     gitMock.env.mockImplementation(() => gitMock as unknown as SimpleGit);
@@ -38,40 +35,28 @@ describe('modules/datasource/git-refs/index', () => {
     it('returns nil if response is wrong', async () => {
       gitMock.listRemote.mockResolvedValue('');
 
-      const versions = await getPkgReleases({
-        datasource,
-        packageName,
-      });
+      const versions = await getPkgReleases({ datasource, packageName });
       expect(versions).toBeNull();
     });
 
     it('returns nil if response is malformed', async () => {
       gitMock.listRemote.mockResolvedValue('aabbccddeeff');
 
-      const { releases } = (await getPkgReleases({
-        datasource,
-        packageName,
-      }))!;
+      const { releases } = (await getPkgReleases({ datasource, packageName }))!;
       expect(releases).toBeEmpty();
     });
 
     it('returns nil if remote call throws exception', async () => {
       gitMock.listRemote.mockRejectedValue(new Error());
 
-      const versions = await getPkgReleases({
-        datasource,
-        packageName,
-      });
+      const versions = await getPkgReleases({ datasource, packageName });
       expect(versions).toBeNull();
     });
 
     it('returns versions filtered from tags', async () => {
       gitMock.listRemote.mockResolvedValue(lsRemote1);
 
-      const versions = await getPkgReleases({
-        datasource,
-        packageName,
-      });
+      const versions = await getPkgReleases({ datasource, packageName });
       expect(versions).toMatchSnapshot();
       const result = versions?.releases.map((x) => x.version).sort();
       expect(result).toHaveLength(6);

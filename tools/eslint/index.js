@@ -1,9 +1,7 @@
 module.exports = {
   rules: {
     'jest-root-describe': {
-      meta: {
-        fixable: 'code',
-      },
+      meta: { fixable: 'code' },
       /**
        * @param {{ getFilename: () => any; report: (arg0: { node: any; message: string; fix(fixer: any): any; }) => void; }} context
        */

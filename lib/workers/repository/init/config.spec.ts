@@ -21,10 +21,7 @@ describe('workers/repository/init/config', () => {
         name: 'it merges env with the current config',
         env: { RENOVATE_STATIC_REPO_CONFIG: '{"dependencyDashboard":true}' },
         currentConfig: { repositories: ['some/repo'] },
-        wantConfig: {
-          dependencyDashboard: true,
-          repositories: ['some/repo'],
-        },
+        wantConfig: { dependencyDashboard: true, repositories: ['some/repo'] },
       },
       {
         name: 'it ignores env with other renovate specific configuration options',

@@ -264,9 +264,7 @@ describe('modules/manager/pip-compile/common', () => {
     });
 
     it('handles hosts with only a username', () => {
-      hostRules.find.mockReturnValue({
-        username: 'user',
-      });
+      hostRules.find.mockReturnValue({ username: 'user' });
       expect(
         getRegistryCredVarsFromPackageFiles([
           {
@@ -282,9 +280,7 @@ describe('modules/manager/pip-compile/common', () => {
     });
 
     it('handles hosts with only a password', () => {
-      hostRules.find.mockReturnValue({
-        password: 'password',
-      });
+      hostRules.find.mockReturnValue({ password: 'password' });
       expect(
         getRegistryCredVarsFromPackageFiles([
           {
@@ -300,15 +296,10 @@ describe('modules/manager/pip-compile/common', () => {
     });
 
     it('handles invalid URLs', () => {
-      hostRules.find.mockReturnValue({
-        password: 'password',
-      });
+      hostRules.find.mockReturnValue({ password: 'password' });
       expect(
         getRegistryCredVarsFromPackageFiles([
-          {
-            deps: [],
-            additionalRegistryUrls: ['invalid-url'],
-          },
+          { deps: [], additionalRegistryUrls: ['invalid-url'] },
         ]),
       ).toEqual({});
     });
@@ -325,10 +316,7 @@ describe('modules/manager/pip-compile/common', () => {
     });
     expect(
       getRegistryCredVarsFromPackageFiles([
-        {
-          deps: [],
-          registryUrls: ['https://example.com/pypi/simple'],
-        },
+        { deps: [], registryUrls: ['https://example.com/pypi/simple'] },
         {
           deps: [],
           additionalRegistryUrls: ['https://example2.com/pypi/simple'],

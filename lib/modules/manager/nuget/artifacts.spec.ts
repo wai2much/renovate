@@ -187,10 +187,7 @@ describe('modules/manager/nuget/artifacts', () => {
         packageFileName: 'project.csproj',
         updatedDeps: [],
         newPackageFileContent: '{}',
-        config: {
-          ...config,
-          isLockFileMaintenance: true,
-        },
+        config: { ...config, isLockFileMaintenance: true },
       }),
     ).toEqual([
       {
@@ -249,12 +246,8 @@ describe('modules/manager/nuget/artifacts', () => {
       },
     ]);
     expect(execSnapshots).toMatchObject([
-      {
-        cmd: 'docker pull ghcr.io/containerbase/sidecar',
-      },
-      {
-        cmd: 'docker ps --filter name=renovate_sidecar -aq',
-      },
+      { cmd: 'docker pull ghcr.io/containerbase/sidecar' },
+      { cmd: 'docker ps --filter name=renovate_sidecar -aq' },
       {
         cmd:
           'docker run --rm --name=renovate_sidecar --label=renovate_child ' +
@@ -395,10 +388,7 @@ describe('modules/manager/nuget/artifacts', () => {
       }),
     ).toEqual([
       {
-        artifactError: {
-          lockFile: 'packages.lock.json',
-          stderr: 'not found',
-        },
+        artifactError: { lockFile: 'packages.lock.json', stderr: 'not found' },
       },
     ]);
     expect(execSnapshots).toBeEmptyArray();

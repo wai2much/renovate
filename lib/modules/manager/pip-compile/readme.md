@@ -12,11 +12,7 @@ The `pip-compile` manager has an empty array for default `fileMatch`, meaning it
 You can "activate" the manager by specifying a `fileMatch` pattern such as:
 
 ```json
-{
-  "pip-compile": {
-    "fileMatch": ["(^|/)requirements\\.txt$"]
-  }
-}
+{ "pip-compile": { "fileMatch": ["(^|/)requirements\\.txt$"] } }
 ```
 
 `pip-compile` reads the output files to extract the arguments passed to the original command, as such the `fileMatch` must be configured for `*.txt` files and not `*.in`.
@@ -57,18 +53,10 @@ Because `pip-compile` will update source files with their associated manager you
 
 ```json
 {
-  "pip_requirements": {
-    "enabled": false
-  },
-  "pip_setup": {
-    "enabled": false
-  },
-  "setup-cfg": {
-    "enabled": false
-  },
-  "pep621": {
-    "enabled": false
-  }
+  "pip_requirements": { "enabled": false },
+  "pip_setup": { "enabled": false },
+  "setup-cfg": { "enabled": false },
+  "pep621": { "enabled": false }
 }
 ```
 
@@ -78,11 +66,7 @@ By default Renovate extracts Python version from the header.
 To get Renovate to use another version of Python, add a constraints` rule to the Renovate config:
 
 ```json
-{
-  "constraints": {
-    "python": "==3.7"
-  }
-}
+{ "constraints": { "python": "==3.7" } }
 ```
 
 ### `pip-compile` arguments

@@ -52,9 +52,7 @@ type ZodShortenedIssue =
   | null
   | string
   | string[]
-  | {
-      [key: string]: ZodShortenedIssue;
-    };
+  | { [key: string]: ZodShortenedIssue };
 
 export function prepareZodIssues(input: unknown): ZodShortenedIssue {
   // istanbul ignore if
@@ -114,9 +112,7 @@ export default function prepareError(err: Error): Record<string, unknown> {
     return prepareZodError(err);
   }
 
-  const response: Record<string, unknown> = {
-    ...err,
-  };
+  const response: Record<string, unknown> = { ...err };
 
   // Required as message is non-enumerable
   if (!response.message && err.message) {
@@ -261,11 +257,7 @@ export function withSanitizer(streamConfig: bunyan.Stream): bunyan.Stream {
       stream.write(result, enc, cb);
     };
 
-    return {
-      ...streamConfig,
-      type: 'raw',
-      stream: { write },
-    } as bunyan.Stream;
+    return { ...streamConfig, type: 'raw', stream: { write } } as bunyan.Stream;
   }
 
   if (streamConfig.path) {
@@ -310,12 +302,7 @@ export function validateLogLevel(
 
   const logger = bunyan.createLogger({
     name: 'renovate',
-    streams: [
-      {
-        level: 'fatal',
-        stream: process.stdout,
-      },
-    ],
+    streams: [{ level: 'fatal', stream: process.stdout }],
   });
   logger.fatal({ logLevel: logLevelToCheck }, 'Invalid log level');
   process.exit(1);

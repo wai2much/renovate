@@ -10,9 +10,7 @@ import { exec } from './exec';
 const file = 'tools/docker/bake.hcl';
 const tmp = fs.mkdtemp(path.join(os.tmpdir(), 'renovate-docker-bake-'));
 
-export type MetaDataItem = {
-  'containerimage.digest'?: string;
-};
+export type MetaDataItem = { 'containerimage.digest'?: string };
 export type MetaData = {
   'push-slim'?: MetaDataItem;
   'push-full'?: MetaDataItem;
@@ -92,10 +90,7 @@ export async function bake(
 
 export function sign(
   image: string,
-  opts: {
-    args?: string[];
-    exitOnError?: boolean;
-  },
+  opts: { args?: string[]; exitOnError?: boolean },
 ): void {
   logger.info(`Signing ${image} ...`);
   const result = exec('cosign', ['sign', '--yes', image]);

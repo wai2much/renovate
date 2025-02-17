@@ -60,10 +60,7 @@ function repoMock(
           }
         : null,
       options.cloneUrl.ssh
-        ? {
-            href: sshLink(projectKey, repositorySlug),
-            name: 'ssh',
-          }
+        ? { href: sshLink(projectKey, repositorySlug), name: 'ssh' }
         : null,
     ].filter(is.truthy);
   }
@@ -133,9 +130,7 @@ function prMock(
         active: true,
         slug: 'userName1',
         type: 'NORMAL',
-        links: {
-          self: [{ href: `${endpointStr}/users/userName1` }],
-        },
+        links: { self: [{ href: `${endpointStr}/users/userName1` }] },
       },
       role: 'AUTHOR',
       approved: false,
@@ -151,9 +146,7 @@ function prMock(
           active: true,
           slug: 'userName2',
           type: 'NORMAL',
-          links: {
-            self: [{ href: `${endpointStr}/users/userName2` }],
-          },
+          links: { self: [{ href: `${endpointStr}/users/userName2` }] },
         },
         role: 'REVIEWER',
         approved: false,
@@ -205,9 +198,7 @@ describe('modules/platform/bitbucket-server/index', () => {
           .get(
             `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
           )
-          .reply(200, {
-            displayId: 'master',
-          });
+          .reply(200, { displayId: 'master' });
         await bitbucket.initRepo({
           endpoint: 'https://stash.renovatebot.com/vcs/',
           repository: 'SOME/repo',
@@ -232,10 +223,7 @@ describe('modules/platform/bitbucket-server/index', () => {
           scenarioName === 'endpoint with path'
             ? 'https://stash.renovatebot.com/vcs/'
             : 'https://stash.renovatebot.com';
-        hostRules.find.mockReturnValue({
-          username,
-          password,
-        });
+        hostRules.find.mockReturnValue({ username, password });
         httpMock
           .scope(urlHost)
           .get(`${urlPath}/rest/api/1.0/application-properties`)
@@ -244,11 +232,7 @@ describe('modules/platform/bitbucket-server/index', () => {
           .scope(urlHost)
           .get(`${urlPath}/rest/api/1.0/users/${username}`)
           .reply(200, userInfo);
-        await bitbucket.initPlatform({
-          endpoint,
-          username,
-          password,
-        });
+        await bitbucket.initPlatform({ endpoint, username, password });
       });
 
       describe('initPlatform()', () => {
@@ -290,10 +274,7 @@ describe('modules/platform/bitbucket-server/index', () => {
         it('should not throw if token', async () => {
           expect.assertions(1);
           await expect(
-            bitbucket.initPlatform({
-              endpoint: 'endpoint',
-              token: 'abc',
-            }),
+            bitbucket.initPlatform({ endpoint: 'endpoint', token: 'abc' }),
           ).resolves.not.toThrow();
         });
 
@@ -334,9 +315,7 @@ describe('modules/platform/bitbucket-server/index', () => {
               username,
               password,
             }),
-          ).toEqual({
-            endpoint: ensureTrailingSlash(url.href),
-          });
+          ).toEqual({ endpoint: ensureTrailingSlash(url.href) });
           expect(logger.debug).toHaveBeenCalledWith(
             expect.any(Object),
             'Failed to get user info, fallback gitAuthor will be used',
@@ -373,9 +352,7 @@ describe('modules/platform/bitbucket-server/index', () => {
               password: '123',
               gitAuthor: `Def Abc <def@abc.com>`,
             }),
-          ).toEqual({
-            endpoint: ensureTrailingSlash(url.href),
-          });
+          ).toEqual({ endpoint: ensureTrailingSlash(url.href) });
         });
 
         it('should skip users api call when no username', async () => {
@@ -385,13 +362,8 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(200, { version: '8.0.0' });
 
           expect(
-            await bitbucket.initPlatform({
-              endpoint: url.href,
-              token: '123',
-            }),
-          ).toEqual({
-            endpoint: ensureTrailingSlash(url.href),
-          });
+            await bitbucket.initPlatform({ endpoint: url.href, token: '123' }),
+          ).toEqual({ endpoint: ensureTrailingSlash(url.href) });
         });
 
         it('should fetch user info if token with username', async () => {
@@ -465,9 +437,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           expect(
             await bitbucket.initRepo({
               endpoint: 'https://stash.renovatebot.com/vcs/',
@@ -485,9 +455,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           expect(
             await bitbucket.initRepo({
               endpoint: 'https://stash.renovatebot.com/vcs/',
@@ -512,9 +480,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
             repository: 'SOME/repo',
@@ -543,9 +509,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           git.getUrl.mockReturnValueOnce(link);
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
@@ -553,9 +517,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             gitUrl: 'endpoint',
           });
           expect(git.initRepo).toHaveBeenCalledWith(
-            expect.objectContaining({
-              url: link,
-            }),
+            expect.objectContaining({ url: link }),
           );
           expect(res).toEqual({
             defaultBranch: 'master',
@@ -576,9 +538,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
             repository: 'SOME/repo',
@@ -611,9 +571,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
             repository: 'SOME/repo',
@@ -636,9 +594,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
             repository: 'SOME/repo',
@@ -667,18 +623,14 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/branches/default`,
             )
-            .reply(200, {
-              displayId: 'master',
-            });
+            .reply(200, { displayId: 'master' });
           git.getUrl.mockReturnValueOnce(link);
           const res = await bitbucket.initRepo({
             endpoint: 'https://stash.renovatebot.com/vcs/',
             repository: 'SOME/repo',
           });
           expect(git.initRepo).toHaveBeenCalledWith(
-            expect.objectContaining({
-              url: link,
-            }),
+            expect.objectContaining({ url: link }),
           );
           expect(res).toMatchSnapshot();
         });
@@ -710,9 +662,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/undefined/repos/undefined/settings/pull-requests`,
             )
-            .reply(200, {
-              mergeConfig: null,
-            });
+            .reply(200, { mergeConfig: null });
           const actual = await bitbucket.getBranchForceRebase!('main');
           expect(actual).toBeFalse();
         });
@@ -724,11 +674,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/undefined/repos/undefined/settings/pull-requests`,
             )
-            .reply(200, {
-              mergeConfig: {
-                defaultStrategy: null,
-              },
-            });
+            .reply(200, { mergeConfig: { defaultStrategy: null } });
           const actual = await bitbucket.getBranchForceRebase!('main');
           expect(actual).toBeFalse();
         });
@@ -742,13 +688,7 @@ describe('modules/platform/bitbucket-server/index', () => {
               .get(
                 `${urlPath}/rest/api/1.0/projects/undefined/repos/undefined/settings/pull-requests`,
               )
-              .reply(200, {
-                mergeConfig: {
-                  defaultStrategy: {
-                    id,
-                  },
-                },
-              });
+              .reply(200, { mergeConfig: { defaultStrategy: { id } } });
             const actual = await bitbucket.getBranchForceRebase!('main');
             expect(actual).toBeTrue();
           },
@@ -763,13 +703,7 @@ describe('modules/platform/bitbucket-server/index', () => {
               .get(
                 `${urlPath}/rest/api/1.0/projects/undefined/repos/undefined/settings/pull-requests`,
               )
-              .reply(200, {
-                mergeConfig: {
-                  defaultStrategy: {
-                    id,
-                  },
-                },
-              });
+              .reply(200, { mergeConfig: { defaultStrategy: { id } } });
             const actual = await bitbucket.getBranchForceRebase!('main');
             expect(actual).toBeFalse();
           },
@@ -1009,10 +943,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .post(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments`,
             )
@@ -1052,10 +983,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .post(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments`,
             )
@@ -1095,16 +1023,11 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/21`,
             )
-            .reply(200, {
-              version: 1,
-            })
+            .reply(200, { version: 1 })
             .put(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/21`,
             )
@@ -1144,10 +1067,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .post(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments`,
             )
@@ -1187,10 +1107,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            });
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] });
 
           expect(
             await bitbucket.ensureComment({
@@ -1226,10 +1143,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            });
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] });
 
           const res = await bitbucket.ensureComment({
             number: 5,
@@ -1266,10 +1180,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/undefined/repos/undefined/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            });
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] });
           await expect(
             bitbucket.ensureCommentRemoval({
               type: 'by-topic',
@@ -1304,16 +1215,11 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/21`,
             )
-            .reply(200, {
-              version: 1,
-            })
+            .reply(200, { version: 1 })
             .delete(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/21?version=1`,
             )
@@ -1353,16 +1259,11 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            })
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] })
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/22`,
             )
-            .reply(200, {
-              version: 1,
-            })
+            .reply(200, { version: 1 })
             .delete(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/comments/22?version=1`,
             )
@@ -1402,10 +1303,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5/activities?limit=100&start=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [{ action: 'OTHER' }],
-            });
+            .reply(200, { isLastPage: true, values: [{ action: 'OTHER' }] });
 
           await expect(
             bitbucket.ensureCommentRemoval({
@@ -1475,10 +1373,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests?state=ALL&role.1=AUTHOR&username.1=abc&limit=100`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [],
-            });
+            .reply(200, { isLastPage: true, values: [] });
 
           expect(
             await bitbucket.getBranchPr('userName1/pullRequest1'),
@@ -1558,10 +1453,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests?state=OPEN&direction=outgoing&at=refs/heads/branch&limit=1`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [],
-            });
+            .reply(200, { isLastPage: true, values: [] });
 
           const pr = await bitbucket.findPr({
             branchName: 'branch',
@@ -1592,9 +1484,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             targetBranch: 'master',
             prTitle: 'title',
             prBody: 'body',
-            platformPrOptions: {
-              bbUseDefaultReviewers: true,
-            },
+            platformPrOptions: { bbUseDefaultReviewers: true },
           });
           expect(pr?.number).toBe(5);
         });
@@ -1619,9 +1509,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             prTitle: 'title',
             prBody: 'body',
             labels: null,
-            platformPrOptions: {
-              bbUseDefaultReviewers: true,
-            },
+            platformPrOptions: { bbUseDefaultReviewers: true },
           });
           expect(pr?.number).toBe(5);
         });
@@ -1913,10 +1801,7 @@ describe('modules/platform/bitbucket-server/index', () => {
           .get(
             `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests?state=ALL&role.1=AUTHOR&username.1=abc&limit=100`,
           )
-          .reply(200, {
-            isLastPage: true,
-            values: [],
-          })
+          .reply(200, { isLastPage: true, values: [] })
           .get(
             `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/pull-requests/5`,
           )
@@ -1933,9 +1818,7 @@ describe('modules/platform/bitbucket-server/index', () => {
           targetBranch: 'master',
           prTitle: 'title',
           prBody: 'body',
-          platformPrOptions: {
-            bbUseDefaultReviewers: true,
-          },
+          platformPrOptions: { bbUseDefaultReviewers: true },
         });
 
         // check that created pr is added to runtime pr list
@@ -1972,10 +1855,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(200);
 
           expect(
-            await bitbucket.mergePr({
-              branchName: 'branch',
-              id: 5,
-            }),
+            await bitbucket.mergePr({ branchName: 'branch', id: 5 }),
           ).toBeTrue();
         });
 
@@ -1997,10 +1877,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(404);
 
           await expect(
-            bitbucket.mergePr({
-              branchName: 'branch',
-              id: 4,
-            }),
+            bitbucket.mergePr({ branchName: 'branch', id: 4 }),
           ).rejects.toThrow(REPOSITORY_NOT_FOUND);
         });
 
@@ -2017,10 +1894,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(404);
 
           await expect(
-            bitbucket.mergePr({
-              branchName: 'branch',
-              id: 5,
-            }),
+            bitbucket.mergePr({ branchName: 'branch', id: 5 }),
           ).rejects.toThrow(REPOSITORY_NOT_FOUND);
         });
 
@@ -2037,10 +1911,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(409);
 
           expect(
-            await bitbucket.mergePr({
-              branchName: 'branch',
-              id: 5,
-            }),
+            await bitbucket.mergePr({ branchName: 'branch', id: 5 }),
           ).toBeFalsy();
         });
 
@@ -2057,10 +1928,7 @@ describe('modules/platform/bitbucket-server/index', () => {
             .reply(405);
 
           await expect(
-            bitbucket.mergePr({
-              branchName: 'branch',
-              id: 5,
-            }),
+            bitbucket.mergePr({ branchName: 'branch', id: 5 }),
           ).resolves.toBeFalse();
         });
       });
@@ -2097,11 +1965,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/build-status/1.0/commits/stats/0d9c7726c3d628b7e28af234595cfd20febdbf8e`,
             )
-            .reply(200, {
-              successful: 3,
-              inProgress: 0,
-              failed: 0,
-            });
+            .reply(200, { successful: 3, inProgress: 0, failed: 0 });
 
           expect(await bitbucket.getBranchStatus('somebranch', true)).toBe(
             'green',
@@ -2114,11 +1978,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/build-status/1.0/commits/stats/0d9c7726c3d628b7e28af234595cfd20febdbf8e`,
             )
-            .reply(200, {
-              successful: 3,
-              inProgress: 1,
-              failed: 0,
-            });
+            .reply(200, { successful: 3, inProgress: 1, failed: 0 });
 
           expect(await bitbucket.getBranchStatus('somebranch', true)).toBe(
             'yellow',
@@ -2128,11 +1988,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/build-status/1.0/commits/stats/0d9c7726c3d628b7e28af234595cfd20febdbf8e`,
             )
-            .reply(200, {
-              successful: 0,
-              inProgress: 0,
-              failed: 0,
-            });
+            .reply(200, { successful: 0, inProgress: 0, failed: 0 });
 
           expect(await bitbucket.getBranchStatus('somebranch', true)).toBe(
             'yellow',
@@ -2145,11 +2001,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/build-status/1.0/commits/stats/0d9c7726c3d628b7e28af234595cfd20febdbf8e`,
             )
-            .reply(200, {
-              successful: 1,
-              inProgress: 1,
-              failed: 1,
-            });
+            .reply(200, { successful: 1, inProgress: 1, failed: 1 });
 
           expect(await bitbucket.getBranchStatus('somebranch', true)).toBe(
             'red',
@@ -2258,10 +2110,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/build-status/1.0/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e?limit=100`,
             )
-            .reply(200, {
-              isLastPage: true,
-              values: [],
-            });
+            .reply(200, { isLastPage: true, values: [] });
 
           expect(
             await bitbucket.getBranchStatusCheck('somebranch', 'context-2'),
@@ -2465,10 +2314,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/browse/file.json5?limit=20000`,
             )
-            .reply(200, {
-              isLastPage: true,
-              lines,
-            });
+            .reply(200, { isLastPage: true, lines });
           const res = await bitbucket.getJsonFile('file.json5');
           expect(res).toEqual({ foo: 'bar' });
         });
@@ -2516,10 +2362,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/browse/file.json?limit=20000`,
             )
-            .reply(200, {
-              isLastPage: true,
-              lines: [{ text: '!@#' }],
-            });
+            .reply(200, { isLastPage: true, lines: [{ text: '!@#' }] });
           await expect(bitbucket.getJsonFile('file.json')).rejects.toThrow();
         });
 
@@ -2529,10 +2372,7 @@ Followed by some information.
             .get(
               `${urlPath}/rest/api/1.0/projects/SOME/repos/repo/browse/file.json?limit=20000`,
             )
-            .reply(200, {
-              isLastPage: false,
-              lines: [{ text: '{' }],
-            });
+            .reply(200, { isLastPage: false, lines: [{ text: '{' }] });
           await expect(bitbucket.getJsonFile('file.json')).rejects.toThrow();
         });
 

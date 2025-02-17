@@ -74,11 +74,7 @@ export class Unity3dDatasource extends Datasource {
       })
       .filter((release) => !!release);
 
-    return {
-      releases,
-      homepage: Unity3dDatasource.homepage,
-      registryUrl,
-    };
+    return { releases, homepage: Unity3dDatasource.homepage, registryUrl };
   }
 
   @cache({

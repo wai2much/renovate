@@ -43,9 +43,7 @@ describe('workers/repository/process/libyear', () => {
                     newVersion: '2.0.0',
                     releaseTimestamp: '2020-07-01T00:00:00Z' as Timestamp,
                   },
-                  {
-                    newVersion: '3.0.0',
-                  },
+                  { newVersion: '3.0.0' },
                 ],
               },
             ],
@@ -175,10 +173,7 @@ describe('workers/repository/process/libyear', () => {
       calculateLibYears(packageFiles);
       expect(logger.logger.debug).toHaveBeenCalledWith(
         {
-          managerLibYears: {
-            npm: 1,
-            regex: 1,
-          },
+          managerLibYears: { npm: 1, regex: 1 },
 
           totalLibYears: 2,
           totalDepsCount: 2,
