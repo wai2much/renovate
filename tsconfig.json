@@ -1,37 +1,35 @@
 {
   "compilerOptions": {
     "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
+    "noImplicitAny": false /* required for js files */,
+    "strictNullChecks": false /* required for js files */,
     "outDir": "./dist",
     /* https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping */
-    "target": "es2022",
-    "module": "commonjs",
+    "target": "es2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": false,
     "noUnusedLocals": true,
     "noImplicitOverride": true,
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false /* we aren't prepared for enabling this by default since ts 4.4*/,
     "isolatedModules": true /* required for esbuild */,
-    "lib": ["es2023"],
-    "types": ["node", "jest-extended", "expect-more-jest"],
+    "lib": ["es2020"],
+    "types": ["node", "jest", "jest-extended", "expect-more-jest"],
     "allowJs": true,
-    "checkJs": true,
-    "ignoreDeprecations": "5.0"
+    "checkJs": true
   },
-  "include": ["**/*.ts", "**/*.js", "**/*.mjs", "**/*.cjs"],
   "exclude": [
     "node_modules",
     "./.cache",
     "./dist",
+    "./esm",
     "**/__mocks__/*",
     "coverage",
     "config.js",
-    "tmp",
-    "tools/mkdocs/site"
-  ],
-  "ts-node": { "transpileOnly": true, "esm": false, "swc": false }
+    "tmp"
+  ]
 }
