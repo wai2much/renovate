@@ -7,9 +7,7 @@ jest.mock('../../../util/fs');
 
 describe('modules/manager/flux/artifacts', () => {
   beforeAll(() => {
-    GlobalConfig.set({
-      localDir: '',
-    });
+    GlobalConfig.set({ localDir: '' });
   });
 
   it('replaces existing value', async () => {

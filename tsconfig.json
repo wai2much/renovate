@@ -6,8 +6,7 @@
     "outDir": "./dist",
     /* https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping */
     "target": "es2022",
-    "moduleResolution": "node10",
-    "module": "CommonJS",
+    "module": "commonjs",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -32,12 +31,7 @@
     "coverage",
     "config.js",
     "tmp",
-    "tools/mkdocs/site",
-    /* TODO: fix me */
-    "eslint.config.mjs"
+    "tools/mkdocs/site"
   ],
-  "ts-node": {
-    "transpileOnly": true,
-    "esm": false
-  }
+  "ts-node": { "transpileOnly": true, "esm": false, "swc": false }
 }

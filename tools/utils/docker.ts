@@ -10,13 +10,11 @@ import { exec } from './exec';
 const file = 'tools/docker/bake.hcl';
 const tmp = fs.mkdtemp(path.join(os.tmpdir(), 'renovate-docker-bake-'));
 
-export interface MetaDataItem {
-  'containerimage.digest'?: string;
-}
-export interface MetaData {
+export type MetaDataItem = { 'containerimage.digest'?: string };
+export type MetaData = {
   'push-slim'?: MetaDataItem;
   'push-full'?: MetaDataItem;
-}
+};
 
 export async function bake(
   target: string,
@@ -32,10 +30,8 @@ export async function bake(
   if (opts.version) {
     console.log(`Using version: ${opts.version.version}`);
     process.env.RENOVATE_VERSION = opts.version.version;
-    if (!opts.version.prerelease) {
-      process.env.RENOVATE_MAJOR_VERSION = `${opts.version.major}`;
-      process.env.RENOVATE_MAJOR_MINOR_VERSION = `${opts.version.major}.${opts.version.minor}`;
-    }
+    process.env.RENOVATE_MAJOR_VERSION = `${opts.version.major}`;
+    process.env.RENOVATE_MAJOR_MINOR_VERSION = `${opts.version.major}.${opts.version.minor}`;
   }
 
   const metadataFile = path.join(await tmp, 'metadata.json');
@@ -94,10 +90,7 @@ export async function bake(
 
 export function sign(
   image: string,
-  opts: {
-    args?: string[];
-    exitOnError?: boolean;
-  },
+  opts: { args?: string[]; exitOnError?: boolean },
 ): void {
   logger.info(`Signing ${image} ...`);
   const result = exec('cosign', ['sign', '--yes', image]);

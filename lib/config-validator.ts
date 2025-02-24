@@ -27,10 +27,7 @@ async function validate(
   const { isMigrated, migratedConfig } = migrateConfig(config);
   if (isMigrated) {
     logger.warn(
-      {
-        oldConfig: config,
-        newConfig: migratedConfig,
-      },
+      { oldConfig: config, newConfig: migratedConfig },
       'Config migration necessary',
     );
     if (strict) {

@@ -3,10 +3,7 @@ import { regEx } from '../../../../../util/regex';
 import * as template from '../../../../../util/template';
 import type { BranchConfig, BranchUpgradeConfig } from '../../../../types';
 
-interface TableDefinition {
-  header: string;
-  value: string | undefined;
-}
+type TableDefinition = { header: string; value: string | undefined };
 
 function getRowDefinition(
   prBodyColumns: string[],

@@ -150,11 +150,7 @@ describe('workers/repository/process/write', () => {
           branchName: 'new/some-branch',
           baseBranch: 'base',
           manager: 'npm',
-          upgrades: [
-            partial<BranchUpgradeConfig>({
-              manager: 'npm',
-            }),
-          ],
+          upgrades: [partial<BranchUpgradeConfig>({ manager: 'npm' })],
         },
       ];
       repoCache.getCache.mockReturnValueOnce({
@@ -182,9 +178,7 @@ describe('workers/repository/process/write', () => {
           upgrades: [
             partial<BranchUpgradeConfig>({
               manager: 'unknown-manager',
-              env: {
-                SOME_VAR: 'SOME_VALUE',
-              },
+              env: { SOME_VAR: 'SOME_VALUE' },
             }),
           ],
         },
@@ -226,9 +220,7 @@ describe('workers/repository/process/write', () => {
           baseBranch: 'base_branch',
           manager: 'npm',
           upgrades: [
-            partial<BranchUpgradeConfig>({
-              manager: 'unknown-manager',
-            }),
+            partial<BranchUpgradeConfig>({ manager: 'unknown-manager' }),
           ],
         },
       ];
@@ -241,10 +233,7 @@ describe('workers/repository/process/write', () => {
         ),
       ].sort();
 
-      const commitFingerprint = fingerprint({
-        branch,
-        managers,
-      });
+      const commitFingerprint = fingerprint({ branch, managers });
       repoCache.getCache.mockReturnValueOnce({
         branches: [
           partial<BranchCache>({
@@ -271,9 +260,7 @@ describe('workers/repository/process/write', () => {
           baseBranch: 'base_branch',
           manager: 'npm',
           upgrades: [
-            partial<BranchUpgradeConfig>({
-              manager: 'unknown-manager',
-            }),
+            partial<BranchUpgradeConfig>({ manager: 'unknown-manager' }),
           ],
         },
       ];
@@ -285,10 +272,7 @@ describe('workers/repository/process/write', () => {
             .filter(is.string),
         ),
       ].sort();
-      const commitFingerprint = fingerprint({
-        branch,
-        managers,
-      });
+      const commitFingerprint = fingerprint({ branch, managers });
       repoCache.getCache.mockReturnValueOnce({
         branches: [
           partial<BranchCache>({
@@ -312,11 +296,7 @@ describe('workers/repository/process/write', () => {
           branchName: 'new/some-branch',
           baseBranch: 'base_branch',
           manager: 'npm',
-          upgrades: [
-            partial<BranchUpgradeConfig>({
-              manager: 'npm',
-            }),
-          ],
+          upgrades: [partial<BranchUpgradeConfig>({ manager: 'npm' })],
         },
       ];
       const repoCacheObj = partial<RepoCacheData>();

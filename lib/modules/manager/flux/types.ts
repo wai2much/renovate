@@ -1,8 +1,6 @@
 import type { FluxResource } from './schema';
 
-export interface FluxManagerData {
-  components?: string;
-}
+export type FluxManagerData = { components: string };
 
 export interface FluxFile {
   file: string;

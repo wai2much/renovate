@@ -16,9 +16,7 @@ jest.mock('fs-extra', () =>
 );
 jest.mock('../../../util/git');
 
-const adminConfig: RepoGlobalConfig = {
-  localDir: upath.resolve('/tmp/repo'),
-};
+const adminConfig: RepoGlobalConfig = { localDir: upath.resolve('/tmp/repo') };
 
 describe('modules/manager/nuget/package-tree', () => {
   describe('getDependentPackageFiles()', () => {

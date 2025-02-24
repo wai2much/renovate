@@ -141,19 +141,10 @@ describe('logger/utils', () => {
       });
 
       expect(
-        prepareIssues(
-          z.object({
-            foo: z.object({
-              bar: z.string(),
-            }),
-          }),
-          { foo: { bar: [], baz: 42 } },
-        ),
-      ).toEqual({
-        foo: {
-          bar: 'Expected string, received array',
-        },
-      });
+        prepareIssues(z.object({ foo: z.object({ bar: z.string() }) }), {
+          foo: { bar: [], baz: 42 },
+        }),
+      ).toEqual({ foo: { bar: 'Expected string, received array' } });
 
       expect(
         prepareIssues(
@@ -192,24 +183,12 @@ describe('logger/utils', () => {
 
     it('prepareError', () => {
       const err = getError(
-        z.object({
-          foo: z.object({
-            bar: z.object({
-              baz: z.string(),
-            }),
-          }),
-        }),
+        z.object({ foo: z.object({ bar: z.object({ baz: z.string() }) }) }),
         { foo: { bar: { baz: 42 } } },
       );
 
       expect(prepareError(err!)).toEqual({
-        issues: {
-          foo: {
-            bar: {
-              baz: 'Expected string, received number',
-            },
-          },
-        },
+        issues: { foo: { bar: { baz: 'Expected string, received number' } } },
         message: 'Schema error',
         stack: expect.stringMatching(/^ZodError: Schema error/),
       });

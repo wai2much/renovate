@@ -14,9 +14,7 @@ describe('modules/datasource/github-tags/index', () => {
 
   beforeEach(() => {
     jest.spyOn(hostRules, 'hosts').mockReturnValue([]);
-    jest.spyOn(hostRules, 'find').mockReturnValue({
-      token: 'some-token',
-    });
+    jest.spyOn(hostRules, 'find').mockReturnValue({ token: 'some-token' });
   });
 
   describe('getDigest', () => {
@@ -71,19 +69,21 @@ describe('modules/datasource/github-tags/index', () => {
     });
 
     it('returns null for missing hash', async () => {
-      jest.spyOn(githubGraphql, 'queryTags').mockResolvedValueOnce([
-        {
-          version: 'v1.0.0',
-          gitRef: 'v1.0.0',
-          releaseTimestamp: '2021-01-01' as Timestamp,
-          hash: '123',
-        },
-        partial<GithubTagItem>({
-          version: 'v2.0.0',
-          gitRef: 'v2.0.0',
-          releaseTimestamp: '2022-01-01' as Timestamp,
-        }),
-      ]);
+      jest
+        .spyOn(githubGraphql, 'queryTags')
+        .mockResolvedValueOnce([
+          {
+            version: 'v1.0.0',
+            gitRef: 'v1.0.0',
+            releaseTimestamp: '2021-01-01' as Timestamp,
+            hash: '123',
+          },
+          partial<GithubTagItem>({
+            version: 'v2.0.0',
+            gitRef: 'v2.0.0',
+            releaseTimestamp: '2022-01-01' as Timestamp,
+          }),
+        ]);
       const res = await github.getDigest({ packageName }, 'v2.0.0');
       expect(res).toBeNull();
     });

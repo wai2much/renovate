@@ -82,16 +82,11 @@ function configureShardingOrFallbackTo(
   testMatch.reverse();
 
   const coverageDirectory = `./coverage/shard/${shardKey}`;
-  return {
-    testMatch,
-    coverageDirectory,
-  };
+  return { testMatch, coverageDirectory };
 }
 
 const config: JestConfig = {
-  ...configureShardingOrFallbackTo({
-    coverageDirectory: './coverage',
-  }),
+  ...configureShardingOrFallbackTo({ coverageDirectory: './coverage' }),
   collectCoverageFrom: [
     'lib/**/*.{js,ts}',
     '!lib/**/*.{d,spec}.ts',

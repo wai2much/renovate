@@ -21,9 +21,7 @@ export class Fixtures {
   static get(name: string, fixturesRoot = '.'): string {
     return realFs.readFileSync(
       upath.resolve(Fixtures.getPathToFixtures(fixturesRoot), name),
-      {
-        encoding: 'utf-8',
-      },
+      { encoding: 'utf-8' },
     );
   }
 
@@ -59,9 +57,7 @@ export class Fixtures {
     return JSON.parse(
       realFs.readFileSync(
         upath.resolve(Fixtures.getPathToFixtures(fixturesRoot), name),
-        {
-          encoding: 'utf-8',
-        },
+        { encoding: 'utf-8' },
       ),
     ) as T;
   }
@@ -125,10 +121,7 @@ const fsExtraMock = {
 
 // Temporary solution, when all tests will be rewritten to Fixtures mocks can be moved into __mocks__ folder
 export function fsExtra(): any {
-  return {
-    ...memfs,
-    ...fsExtraMock,
-  };
+  return { ...memfs, ...fsExtraMock };
 }
 
 export function readFile(fileName: string, options: any): Promise<TDataOut> {
@@ -148,9 +141,7 @@ export async function outputFile(
   if (await pathExists(dir)) {
     await memfs.promises.writeFile(file, data);
   } else {
-    await memfs.promises.mkdir(dir, {
-      recursive: true,
-    });
+    await memfs.promises.mkdir(dir, { recursive: true });
     await memfs.promises.writeFile(file, data);
   }
 }

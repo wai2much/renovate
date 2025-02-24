@@ -235,9 +235,11 @@ describe('modules/manager/poetry/artifacts', () => {
       const execSnapshots = mockExecAll();
       fs.readLocalFile.mockResolvedValueOnce('New poetry.lock');
       googleAuth.mockImplementationOnce(
-        jest.fn().mockImplementationOnce(() => ({
-          getAccessToken: jest.fn().mockResolvedValue('some-token'),
-        })),
+        jest
+          .fn()
+          .mockImplementationOnce(() => ({
+            getAccessToken: jest.fn().mockResolvedValue('some-token'),
+          })),
       );
       hostRules.find.mockReturnValue({});
       const updatedDeps = [{ depName: 'dep1' }];
@@ -281,9 +283,11 @@ describe('modules/manager/poetry/artifacts', () => {
       const execSnapshots = mockExecAll();
       fs.readLocalFile.mockResolvedValueOnce('New poetry.lock');
       googleAuth.mockImplementation(
-        jest.fn().mockImplementation(() => ({
-          getAccessToken: jest.fn().mockResolvedValue(undefined),
-        })),
+        jest
+          .fn()
+          .mockImplementation(() => ({
+            getAccessToken: jest.fn().mockResolvedValue(undefined),
+          })),
       );
       const updatedDeps = [{ depName: 'dep1' }];
       expect(
@@ -404,12 +408,7 @@ describe('modules/manager/poetry/artifacts', () => {
           packageFileName: 'pyproject.toml',
           updatedDeps,
           newPackageFileContent: pyproject1toml,
-          config: {
-            ...config,
-            constraints: {
-              python: '~2.7 || ^3.4',
-            },
-          },
+          config: { ...config, constraints: { python: '~2.7 || ^3.4' } },
         }),
       ).toEqual([
         {
@@ -449,9 +448,7 @@ describe('modules/manager/poetry/artifacts', () => {
         binarySource: 'docker',
         dockerSidecarImage: 'ghcr.io/containerbase/sidecar',
       });
-      hostRules.find.mockReturnValueOnce({
-        token: 'some-token',
-      });
+      hostRules.find.mockReturnValueOnce({ token: 'some-token' });
       hostRules.getAll.mockReturnValueOnce([
         {
           token: 'some-token',
@@ -480,12 +477,7 @@ describe('modules/manager/poetry/artifacts', () => {
           packageFileName: 'pyproject.toml',
           updatedDeps,
           newPackageFileContent: pyproject1toml,
-          config: {
-            ...config,
-            constraints: {
-              python: '~2.7 || ^3.4',
-            },
-          },
+          config: { ...config, constraints: { python: '~2.7 || ^3.4' } },
         }),
       ).toEqual([
         {
@@ -561,10 +553,7 @@ describe('modules/manager/poetry/artifacts', () => {
           packageFileName: 'pyproject.toml',
           updatedDeps,
           newPackageFileContent: pyproject1toml,
-          config: {
-            ...config,
-            constraints: {},
-          },
+          config: { ...config, constraints: {} },
         }),
       ).toEqual([
         {
@@ -621,10 +610,7 @@ describe('modules/manager/poetry/artifacts', () => {
           packageFileName: 'pyproject.toml',
           updatedDeps,
           newPackageFileContent: pyproject1toml,
-          config: {
-            ...config,
-            constraints: {},
-          },
+          config: { ...config, constraints: {} },
         }),
       ).toEqual([
         {
@@ -674,10 +660,7 @@ describe('modules/manager/poetry/artifacts', () => {
           packageFileName: 'pyproject.toml',
           updatedDeps: [],
           newPackageFileContent: '{}',
-          config: {
-            ...config,
-            isLockFileMaintenance: true,
-          },
+          config: { ...config, updateType: 'lockFileMaintenance' },
         }),
       ).toEqual([
         {

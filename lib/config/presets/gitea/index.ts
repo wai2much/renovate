@@ -16,9 +16,7 @@ export async function fetchJSONFile(
 ): Promise<Preset> {
   let res: RepoContents;
   try {
-    res = await getRepoContents(repo, fileName, tag, {
-      baseUrl: endpoint,
-    });
+    res = await getRepoContents(repo, fileName, tag, { baseUrl: endpoint });
   } catch (err) {
     // istanbul ignore if: not testable with nock
     if (err instanceof ExternalHostError) {

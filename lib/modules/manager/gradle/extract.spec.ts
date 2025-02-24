@@ -34,10 +34,7 @@ describe('modules/manager/gradle/extract', () => {
   });
 
   it('returns null', async () => {
-    const fsMock = {
-      'gradle.properties': '',
-      'build.gradle': '',
-    };
+    const fsMock = { 'gradle.properties': '', 'build.gradle': '' };
     mockFs(fsMock);
 
     expect(
@@ -51,9 +48,7 @@ describe('modules/manager/gradle/extract', () => {
   it('logs a warning in case parseGradle throws an exception', async () => {
     const filename = 'build.gradle';
     const err = new Error('unknown');
-    const fsMock = {
-      'build.gradle': '',
-    };
+    const fsMock = { 'build.gradle': '' };
     mockFs(fsMock);
 
     jest.spyOn(parser, 'parseGradle').mockImplementationOnce(() => {
@@ -292,10 +287,7 @@ describe('modules/manager/gradle/extract', () => {
         jjwtApi = "io.jsonwebtoken:jjwt-api:$jjwtVersion"
       }
     `;
-    const fsMock = {
-      'build.gradle': buildFile,
-      'test.gradle': testFile,
-    };
+    const fsMock = { 'build.gradle': buildFile, 'test.gradle': testFile };
     mockFs(fsMock);
 
     const res = await extractAllPackageFiles(
@@ -411,10 +403,7 @@ describe('modules/manager/gradle/extract', () => {
       );
 
       expect(res).toMatchObject([
-        {
-          packageFile: 'gradle.properties',
-          deps: [],
-        },
+        { packageFile: 'gradle.properties', deps: [] },
         {
           packageFile: 'build.gradle',
           deps: [
@@ -472,10 +461,7 @@ describe('modules/manager/gradle/extract', () => {
       );
 
       expect(res).toMatchObject([
-        {
-          packageFile: 'settings.gradle',
-          deps: [],
-        },
+        { packageFile: 'settings.gradle', deps: [] },
         {
           packageFile: 'build.gradle',
           deps: [
@@ -767,16 +753,12 @@ describe('modules/manager/gradle/extract', () => {
             {
               depName: 'guava',
               skipReason: 'multiple-constraint-dep',
-              managerData: {
-                packageFile: 'gradle/libs.versions.toml',
-              },
+              managerData: { packageFile: 'gradle/libs.versions.toml' },
             },
             {
               depName: 'gson',
               skipReason: 'unsupported-version',
-              managerData: {
-                packageFile: 'gradle/libs.versions.toml',
-              },
+              managerData: { packageFile: 'gradle/libs.versions.toml' },
             },
             {
               depName: 'io.gitlab.arturbosch.detekt',
@@ -808,9 +790,7 @@ describe('modules/manager/gradle/extract', () => {
               commitMessageTopic: 'plugin grgit',
               packageName:
                 'org.ajoberstar.grgit:org.ajoberstar.grgit.gradle.plugin',
-              managerData: {
-                packageFile: 'gradle/libs.versions.toml',
-              },
+              managerData: { packageFile: 'gradle/libs.versions.toml' },
               registryUrls: ['https://plugins.gradle.org/m2/'],
               skipReason: 'unspecified-version',
             },
@@ -825,9 +805,7 @@ describe('modules/manager/gradle/extract', () => {
     });
 
     it('ignores empty TOML file', async () => {
-      const fsMock = {
-        'gradle/libs.versions.toml': '',
-      };
+      const fsMock = { 'gradle/libs.versions.toml': '' };
       mockFs(fsMock);
 
       expect(
@@ -1037,9 +1015,7 @@ describe('modules/manager/gradle/extract', () => {
     });
 
     it('prevents inclusion of non-Gradle files', async () => {
-      const fsMock = {
-        'build.gradle': "apply from: '../../test.non-gradle'",
-      };
+      const fsMock = { 'build.gradle': "apply from: '../../test.non-gradle'" };
       mockFs(fsMock);
 
       expect(
@@ -1069,9 +1045,7 @@ describe('modules/manager/gradle/extract', () => {
       );
 
       expect(res).toMatchObject([
-        {
-          packageFile: 'versions.lock',
-        },
+        { packageFile: 'versions.lock' },
         {
           packageFile: 'versions.props',
           deps: [
@@ -1161,10 +1135,7 @@ describe('modules/manager/gradle/extract', () => {
 
       // Each lock dep is only present once, with highest prio for exact prop match, then globs from longest to shortest
       expect(res).toMatchObject([
-        {
-          packageFile: 'versions.lock',
-          deps: [],
-        },
+        { packageFile: 'versions.lock', deps: [] },
         {
           packageFile: 'versions.props',
           deps: [

@@ -68,11 +68,7 @@ let config: BbsConfig = {} as any;
 
 const bitbucketServerHttp = new BitbucketServerHttp();
 
-const defaults: {
-  endpoint?: string;
-  hostType: string;
-  version: string;
-} = {
+const defaults: { endpoint?: string; hostType: string; version: string } = {
   hostType: 'bitbucket-server',
   version: '0.0.0',
 };
@@ -106,9 +102,7 @@ export async function initPlatform({
   // TODO: Add a connection check that endpoint/username/password combination are valid (#9595)
   defaults.endpoint = ensureTrailingSlash(endpoint);
   setBaseUrl(defaults.endpoint);
-  const platformConfig: PlatformResult = {
-    endpoint: defaults.endpoint,
-  };
+  const platformConfig: PlatformResult = { endpoint: defaults.endpoint };
   try {
     let bitbucketServerVersion: string;
     // istanbul ignore if: experimental feature
@@ -136,9 +130,7 @@ export async function initPlatform({
 
   if (!gitAuthor && username) {
     logger.debug(`Attempting to confirm gitAuthor from username`);
-    const options: HttpOptions = {
-      memCache: false,
-    };
+    const options: HttpOptions = { memCache: false };
 
     if (token) {
       options.token = token;
@@ -368,9 +360,7 @@ export async function getPrList(refreshCache?: boolean): Promise<Pr[]> {
   logger.debug(`getPrList()`);
   // istanbul ignore next
   if (!config.prList || refreshCache) {
-    const searchParams: Record<string, string> = {
-      state: 'ALL',
-    };
+    const searchParams: Record<string, string> = { state: 'ALL' };
     if (!config.ignorePrAuthor && config.username !== undefined) {
       searchParams['role.1'] = 'AUTHOR';
       searchParams['username.1'] = config.username;
@@ -401,11 +391,9 @@ export async function findPr({
 
   if (includeOtherAuthors) {
     // PR might have been created by anyone, so don't use the cached Renovate PR list
-    const searchParams: Record<string, string> = {
-      state: 'OPEN',
-    };
-    searchParams.direction = 'outgoing';
-    searchParams.at = `refs/heads/${branchName}`;
+    const searchParams: Record<string, string> = { state: 'OPEN' };
+    searchParams['direction'] = 'outgoing';
+    searchParams['at'] = `refs/heads/${branchName}`;
 
     const query = getQueryString(searchParams);
     const prs = await utils.accumulateValues(
@@ -436,10 +424,7 @@ export async function findPr({
 // Returns the Pull Request for a branch. Null if not exists.
 export async function getBranchPr(branchName: string): Promise<BbsPr | null> {
   logger.debug(`getBranchPr(${branchName})`);
-  const existingPr = await findPr({
-    branchName,
-    state: 'open',
-  });
+  const existingPr = await findPr({ branchName, state: 'open' });
   return existingPr ? getPr(existingPr.number) : null;
 }
 
@@ -741,10 +726,7 @@ export function deleteLabel(issueNo: number, label: string): Promise<void> {
   return Promise.resolve();
 }
 
-interface Comment {
-  text: string;
-  id: number;
-}
+type Comment = { text: string; id: number };
 
 async function getComments(prNo: number): Promise<Comment[]> {
   // GET /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/activities
@@ -768,9 +750,7 @@ async function addComment(prNo: number, text: string): Promise<void> {
   // POST /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments
   await bitbucketServerHttp.postJson(
     `./rest/api/1.0/projects/${config.projectKey}/repos/${config.repositorySlug}/pull-requests/${prNo}/comments`,
-    {
-      body: { text },
-    },
+    { body: { text } },
   );
 }
 
@@ -798,9 +778,7 @@ async function editComment(
   // PUT /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests/{pullRequestId}/comments/{commentId}
   await bitbucketServerHttp.putJson(
     `./rest/api/1.0/projects/${config.projectKey}/repos/${config.repositorySlug}/pull-requests/${prNo}/comments/${commentId}`,
-    {
-      body: { text, version },
-    },
+    { body: { text, version } },
   );
 }
 
@@ -931,20 +909,14 @@ export async function createPr({
       )
     ).body;
 
-    reviewers = defReviewers.map((u) => ({
-      user: { name: u.name },
-    }));
+    reviewers = defReviewers.map((u) => ({ user: { name: u.name } }));
   }
 
   const body: PartialDeep<BbsRestPr> = {
     title,
     description,
-    fromRef: {
-      id: `refs/heads/${sourceBranch}`,
-    },
-    toRef: {
-      id: `refs/heads/${base}`,
-    },
+    fromRef: { id: `refs/heads/${sourceBranch}` },
+    toRef: { id: `refs/heads/${base}` },
     reviewers,
   };
   let prInfoRes: HttpResponse<BbsRestPr>;
@@ -967,9 +939,7 @@ export async function createPr({
     throw err;
   }
 
-  const pr: BbsPr = {
-    ...utils.prInfo(prInfoRes.body),
-  };
+  const pr: BbsPr = { ...utils.prInfo(prInfoRes.body) };
 
   // TODO #22198
   updatePrVersion(pr.number, pr.version!);
@@ -990,7 +960,7 @@ export async function updatePr({
   bitbucketInvalidReviewers,
   targetBranch,
 }: UpdatePrConfig & {
-  bitbucketInvalidReviewers?: string[] | undefined;
+  bitbucketInvalidReviewers: string[] | undefined;
 }): Promise<void> {
   const description = sanitize(rawDescription);
   logger.debug(`updatePr(${prNo}, title=${title})`);
@@ -1010,15 +980,11 @@ export async function updatePr({
         .map((name: string) => ({ user: { name } })),
     };
     if (targetBranch) {
-      body.toRef = {
-        id: getNewBranchName(targetBranch),
-      };
+      body.toRef = { id: getNewBranchName(targetBranch) };
     }
 
     const { body: updatedPr } = await bitbucketServerHttp.putJson<
-      BbsRestPr & {
-        version: number;
-      }
+      BbsRestPr & { version: number }
     >(
       `./rest/api/1.0/projects/${config.projectKey}/repos/${config.repositorySlug}/pull-requests/${prNo}`,
       { body },
@@ -1028,10 +994,7 @@ export async function updatePr({
 
     const currentState = updatedPr.state;
     // TODO #22198
-    const newState = {
-      ['open']: 'OPEN',
-      ['closed']: 'DECLINED',
-    }[state!];
+    const newState = { ['open']: 'OPEN', ['closed']: 'DECLINED' }[state!];
 
     let finalState: 'open' | 'closed' =
       currentState === 'OPEN' ? 'open' : 'closed';

@@ -3,17 +3,15 @@ import { z } from 'zod';
 import { logger } from '../../lib/logger';
 import { exec } from '../../lib/util/exec';
 
-export interface ItemsEntity {
+export type ItemsEntity = {
   url: string;
   number: number;
   title: string;
   labels: LabelsEntity[];
   issueType: 'Bug' | 'Feature';
-}
+};
 
-export interface LabelsEntity {
-  name: string;
-}
+export type LabelsEntity = { name: string };
 
 export interface RenovateOpenItems {
   managers: OpenItems;
@@ -33,11 +31,7 @@ const GhOutputSchema = z.array(
   z.object({
     url: z.string(),
     title: z.string(),
-    labels: z.array(
-      z.object({
-        name: z.string(),
-      }),
-    ),
+    labels: z.array(z.object({ name: z.string() })),
     number: z.number(),
   }),
 );

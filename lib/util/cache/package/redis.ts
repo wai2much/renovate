@@ -118,9 +118,7 @@ export async function init(
     pingInterval: 30000, // 30s
   };
   if (clusteredMode) {
-    client = createCluster({
-      rootNodes: [config],
-    });
+    client = createCluster({ rootNodes: [config] });
   } else {
     client = createClient(config);
   }

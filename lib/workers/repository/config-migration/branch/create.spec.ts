@@ -44,11 +44,7 @@ describe('workers/repository/config-migration/branch/create', () => {
         branchName: 'renovate/migrate-config',
         baseBranch: 'dev',
         files: [
-          {
-            type: 'addition',
-            path: 'renovate.json',
-            contents: renovateConfig,
-          },
+          { type: 'addition', path: 'renovate.json', contents: renovateConfig },
         ],
         message: 'Migrate config renovate.json',
         platformCommit: 'auto',
@@ -68,11 +64,7 @@ describe('workers/repository/config-migration/branch/create', () => {
         branchName: 'renovate/migrate-config',
         baseBranch: 'dev',
         files: [
-          {
-            type: 'addition',
-            path: 'renovate.json',
-            contents: renovateConfig,
-          },
+          { type: 'addition', path: 'renovate.json', contents: renovateConfig },
         ],
         message,
         platformCommit: 'auto',
@@ -99,11 +91,7 @@ describe('workers/repository/config-migration/branch/create', () => {
         branchName: 'renovate/migrate-config',
         baseBranch: 'dev',
         files: [
-          {
-            type: 'addition',
-            path: 'renovate.json',
-            contents: renovateConfig,
-          },
+          { type: 'addition', path: 'renovate.json', contents: renovateConfig },
           {
             type: 'addition',
             path: 'package.json',

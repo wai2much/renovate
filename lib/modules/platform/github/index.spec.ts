@@ -49,9 +49,7 @@ describe('modules/platform/github/index', () => {
     git.getBranchCommit.mockReturnValue(
       '0d9c7726c3d628b7e28af234595cfd20febdbf8e' as LongCommitSha,
     );
-    hostRules.find.mockReturnValue({
-      token: '123test',
-    });
+    hostRules.find.mockReturnValue({ token: '123test' });
 
     const repoCache = repository.getCache();
     delete repoCache.platform;
@@ -123,9 +121,7 @@ describe('modules/platform/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
         .reply(400);
       expect(await github.initPlatform({ token: '123test' })).toMatchSnapshot();
@@ -135,9 +131,7 @@ describe('modules/platform/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
         .reply(200, [{}]);
       expect(await github.initPlatform({ token: '123test' })).toMatchSnapshot();
@@ -157,15 +151,9 @@ describe('modules/platform/github/index', () => {
       httpMock
         .scope(githubApiHost)
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
-        .reply(200, [
-          {
-            email: 'user@domain.com',
-          },
-        ]);
+        .reply(200, [{ email: 'user@domain.com' }]);
       expect(await github.initPlatform({ token: '123test' })).toMatchSnapshot();
     });
 
@@ -173,9 +161,7 @@ describe('modules/platform/github/index', () => {
       process.env.RENOVATE_X_GITHUB_HOST_RULES = 'true';
       httpMock
         .scope(githubApiHost, {
-          reqheaders: {
-            authorization: 'token ghs_123test',
-          },
+          reqheaders: { authorization: 'token ghs_123test' },
         })
         .post('/graphql')
         .reply(200, {
@@ -269,9 +255,7 @@ describe('modules/platform/github/index', () => {
     it('should autodetect email/user on custom endpoint with GitHub App', async () => {
       httpMock
         .scope('https://ghe.renovatebot.com', {
-          reqheaders: {
-            authorization: 'token ghs_123test',
-          },
+          reqheaders: { authorization: 'token ghs_123test' },
         })
         .head('/')
         .reply(200, '', { 'x-github-enterprise-version': '3.0.15' })
@@ -300,15 +284,9 @@ describe('modules/platform/github/index', () => {
         .reply(200, '', { 'x-github-enterprise-version': '3.0.15' })
 
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
-        .reply(200, [
-          {
-            email: 'user@domain.com',
-          },
-        ]);
+        .reply(200, [{ email: 'user@domain.com' }]);
       expect(
         await github.initPlatform({
           endpoint: 'https://ghe.renovatebot.com',
@@ -324,15 +302,9 @@ describe('modules/platform/github/index', () => {
         .reply(200)
 
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
-        .reply(200, [
-          {
-            email: 'user@domain.com',
-          },
-        ]);
+        .reply(200, [{ email: 'user@domain.com' }]);
       expect(
         await github.initPlatform({
           endpoint: 'https://ghe.renovatebot.com',
@@ -348,18 +320,9 @@ describe('modules/platform/github/index', () => {
         .scope(githubApiHost)
         .get('/user/repos?per_page=100')
         .reply(200, [
-          {
-            full_name: 'a/b',
-            archived: false,
-          },
-          {
-            full_name: 'c/d',
-            archived: false,
-          },
-          {
-            full_name: 'e/f',
-            archived: true,
-          },
+          { full_name: 'a/b', archived: false },
+          { full_name: 'c/d', archived: false },
+          { full_name: 'e/f', archived: true },
           null,
         ]);
       const repos = await github.getRepos();
@@ -371,21 +334,13 @@ describe('modules/platform/github/index', () => {
         .scope(githubApiHost)
         .get('/user/repos?per_page=100')
         .reply(200, [
-          {
-            full_name: 'a/b',
-            archived: false,
-            topics: [],
-          },
+          { full_name: 'a/b', archived: false, topics: [] },
           {
             full_name: 'c/d',
             archived: false,
             topics: ['managed-by-renovate'],
           },
-          {
-            full_name: 'e/f',
-            archived: true,
-            topics: ['managed-by-renovate'],
-          },
+          { full_name: 'e/f', archived: true, topics: ['managed-by-renovate'] },
           null,
         ]);
 
@@ -405,15 +360,7 @@ describe('modules/platform/github/index', () => {
         .scope(githubApiHost)
         .get('/installation/repositories?per_page=100')
         .reply(200, {
-          repositories: [
-            {
-              full_name: 'a/b',
-            },
-            {
-              full_name: 'c/d',
-            },
-            null,
-          ],
+          repositories: [{ full_name: 'a/b' }, { full_name: 'c/d' }, null],
         });
 
       const repos = await github.getRepos();
@@ -434,18 +381,9 @@ describe('modules/platform/github/index', () => {
         .get('/installation/repositories?per_page=100')
         .reply(200, {
           repositories: [
-            {
-              full_name: 'a/b',
-              archived: false,
-            },
-            {
-              full_name: 'c/d',
-              archived: false,
-            },
-            {
-              full_name: 'e/f',
-              archived: true,
-            },
+            { full_name: 'a/b', archived: false },
+            { full_name: 'c/d', archived: false },
+            { full_name: 'e/f', archived: true },
             null,
           ],
         });
@@ -460,27 +398,24 @@ describe('modules/platform/github/index', () => {
     repository: string,
     other: any = {},
   ): void {
-    scope.post(`/graphql`).reply(200, {
-      data: {
-        repository: {
-          isFork: false,
-          isArchived: false,
-          nameWithOwner: repository,
-          autoMergeAllowed: true,
-          hasIssuesEnabled: true,
-          mergeCommitAllowed: true,
-          rebaseMergeAllowed: true,
-          squashMergeAllowed: true,
-          defaultBranchRef: {
-            name: 'master',
-            target: {
-              oid: '1234',
-            },
+    scope
+      .post(`/graphql`)
+      .reply(200, {
+        data: {
+          repository: {
+            isFork: false,
+            isArchived: false,
+            nameWithOwner: repository,
+            autoMergeAllowed: true,
+            hasIssuesEnabled: true,
+            mergeCommitAllowed: true,
+            rebaseMergeAllowed: true,
+            squashMergeAllowed: true,
+            defaultBranchRef: { name: 'master', target: { oid: '1234' } },
+            ...other,
           },
-          ...other,
         },
-      },
-    });
+      });
   }
 
   function forkInitRepoMock(
@@ -504,29 +439,26 @@ describe('modules/platform/github/index', () => {
             mergeCommitAllowed: true,
             rebaseMergeAllowed: true,
             squashMergeAllowed: true,
-            defaultBranchRef: {
-              name: 'master',
-              target: {
-                oid: '1234',
-              },
-            },
+            defaultBranchRef: { name: 'master', target: { oid: '1234' } },
           },
         },
       });
 
     if (!isFork) {
-      scope.get(`/repos/${repository}/forks?per_page=100`).reply(
-        forkResult,
-        forkExisted
-          ? [
-              {
-                full_name: 'forked/repo',
-                owner: { login: 'forked' },
-                default_branch: forkDefaultBranch,
-              },
-            ]
-          : [],
-      );
+      scope
+        .get(`/repos/${repository}/forks?per_page=100`)
+        .reply(
+          forkResult,
+          forkExisted
+            ? [
+                {
+                  full_name: 'forked/repo',
+                  owner: { login: 'forked' },
+                  default_branch: forkDefaultBranch,
+                },
+              ]
+            : [],
+        );
     }
   }
 
@@ -541,13 +473,10 @@ describe('modules/platform/github/index', () => {
     it('should fork when using forkToken', async () => {
       const scope = httpMock.scope(githubApiHost);
       forkInitRepoMock(scope, 'some/repo', false);
-      scope.get('/user').reply(200, {
-        login: 'forked',
-      });
-      scope.post('/repos/some/repo/forks').reply(200, {
-        full_name: 'forked/repo',
-        default_branch: 'master',
-      });
+      scope.get('/user').reply(200, { login: 'forked' });
+      scope
+        .post('/repos/some/repo/forks')
+        .reply(200, { full_name: 'forked/repo', default_branch: 'master' });
       const config = await github.initRepo({
         repository: 'some/repo',
         forkToken: 'true',
@@ -559,9 +488,7 @@ describe('modules/platform/github/index', () => {
     it('should throw if fork needed but forkCreation=false', async () => {
       const scope = httpMock.scope(githubApiHost);
       forkInitRepoMock(scope, 'some/repo', false);
-      scope.get('/user').reply(200, {
-        login: 'forked',
-      });
+      scope.get('/user').reply(200, { login: 'forked' });
       await expect(
         github.initRepo({
           repository: 'some/repo',
@@ -630,9 +557,7 @@ describe('modules/platform/github/index', () => {
       const repo = 'some/repo';
       const scope = httpMock.scope(githubApiHost);
       forkInitRepoMock(scope, repo, false);
-      scope.get('/user').reply(200, {
-        login: 'forked',
-      });
+      scope.get('/user').reply(200, { login: 'forked' });
       scope.post(`/repos/${repo}/forks`).reply(500);
       await expect(
         github.initRepo({
@@ -660,9 +585,7 @@ describe('modules/platform/github/index', () => {
     it('detects fork default branch mismatch', async () => {
       const scope = httpMock.scope(githubApiHost);
       forkInitRepoMock(scope, 'some/repo', true, 200, 'not_master');
-      scope.get('/user').reply(200, {
-        login: 'forked',
-      });
+      scope.get('/user').reply(200, { login: 'forked' });
       scope.post('/repos/forked/repo/git/refs').reply(200);
       scope.patch('/repos/forked/repo').reply(200);
       scope.patch('/repos/forked/repo/git/refs/heads/master').reply(200);
@@ -688,18 +611,11 @@ describe('modules/platform/github/index', () => {
               mergeCommitAllowed: true,
               rebaseMergeAllowed: true,
               squashMergeAllowed: false,
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
-      const config = await github.initRepo({
-        repository: 'some/repo',
-      });
+      const config = await github.initRepo({ repository: 'some/repo' });
       expect(config).toMatchSnapshot();
     });
 
@@ -717,12 +633,7 @@ describe('modules/platform/github/index', () => {
               mergeCommitAllowed: false,
               rebaseMergeAllowed: true,
               squashMergeAllowed: false,
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
@@ -737,12 +648,7 @@ describe('modules/platform/github/index', () => {
         .reply(200, {
           data: {
             repository: {
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
@@ -760,12 +666,7 @@ describe('modules/platform/github/index', () => {
               isArchived: true,
               nameWithOwner: 'some/repo',
               hasIssuesEnabled: true,
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
@@ -786,12 +687,7 @@ describe('modules/platform/github/index', () => {
         .scope(githubApiHost)
         .post(`/graphql`)
         .reply(200, {
-          errors: [
-            {
-              type: 'SOME_ERROR_TYPE',
-              message: 'Some error message',
-            },
-          ],
+          errors: [{ type: 'SOME_ERROR_TYPE', message: 'Some error message' }],
         });
       await expect(
         github.initRepo({ repository: 'some/repo' }),
@@ -824,12 +720,7 @@ describe('modules/platform/github/index', () => {
             repository: {
               nameWithOwner: 'some/other',
               hasIssuesEnabled: true,
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
@@ -847,18 +738,11 @@ describe('modules/platform/github/index', () => {
             repository: {
               nameWithOwner: 'Some/repo',
               hasIssuesEnabled: true,
-              defaultBranchRef: {
-                name: 'master',
-                target: {
-                  oid: '1234',
-                },
-              },
+              defaultBranchRef: { name: 'master', target: { oid: '1234' } },
             },
           },
         });
-      const result = await github.initRepo({
-        repository: 'some/Repo',
-      });
+      const result = await github.initRepo({ repository: 'some/Repo' });
       expect(result.defaultBranch).toBe('master');
       expect(result.isFork).toBeFalse();
     });
@@ -875,10 +759,7 @@ describe('modules/platform/github/index', () => {
             require_code_owner_reviews: false,
             required_approving_review_count: 1,
           },
-          required_status_checks: {
-            strict: true,
-            contexts: [],
-          },
+          required_status_checks: { strict: true, contexts: [] },
           restrictions: {
             users: [
               {
@@ -1056,10 +937,7 @@ describe('modules/platform/github/index', () => {
     describe('Body compaction', () => {
       type PrCache = ApiPageCache<GhRestPr>;
 
-      const prWithBody = (body: string): GhRestPr => ({
-        ...pr1,
-        body,
-      });
+      const prWithBody = (body: string): GhRestPr => ({ ...pr1, body });
 
       it('compacts body from response', async () => {
         const scope = httpMock.scope(githubApiHost);
@@ -1220,9 +1098,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'success',
-        })
+        .reply(200, { state: 'success' })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, []);
 
@@ -1238,12 +1114,7 @@ describe('modules/platform/github/index', () => {
         .get('/repos/some/repo/commits/somebranch/status')
         .reply(200, {
           state: 'success',
-          statuses: [
-            {
-              context: 'renovate/stability-days',
-              state: 'success',
-            },
-          ],
+          statuses: [{ context: 'renovate/stability-days', state: 'success' }],
         })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, []);
@@ -1258,9 +1129,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'failure',
-        })
+        .reply(200, { state: 'failure' })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, []);
 
@@ -1274,9 +1143,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'unknown',
-        })
+        .reply(200, { state: 'unknown' })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, []);
       await github.initRepo({ repository: 'some/repo' });
@@ -1289,10 +1156,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'pending',
-          statuses: [],
-        })
+        .reply(200, { state: 'pending', statuses: [] })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, {
           total_count: 2,
@@ -1321,10 +1185,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'pending',
-          statuses: [],
-        })
+        .reply(200, { state: 'pending', statuses: [] })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, {
           total_count: 3,
@@ -1359,10 +1220,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .get('/repos/some/repo/commits/somebranch/status')
-        .reply(200, {
-          state: 'pending',
-          statuses: [],
-        })
+        .reply(200, { state: 'pending', statuses: [] })
         .get('/repos/some/repo/commits/somebranch/check-runs?per_page=100')
         .reply(200, {
           total_count: 2,
@@ -1373,11 +1231,7 @@ describe('modules/platform/github/index', () => {
               conclusion: 'success',
               name: 'Travis CI - Pull Request',
             },
-            {
-              id: 23950195,
-              status: 'pending',
-              name: 'Travis CI - Branch',
-            },
+            { id: 23950195, status: 'pending', name: 'Travis CI - Branch' },
           ],
         });
       await github.initRepo({ repository: 'some/repo' });
@@ -1395,18 +1249,9 @@ describe('modules/platform/github/index', () => {
           '/repos/some/repo/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e/statuses',
         )
         .reply(200, [
-          {
-            context: 'context-1',
-            state: 'success',
-          },
-          {
-            context: 'context-2',
-            state: 'pending',
-          },
-          {
-            context: 'context-3',
-            state: 'failure',
-          },
+          { context: 'context-1', state: 'success' },
+          { context: 'context-2', state: 'pending' },
+          { context: 'context-3', state: 'failure' },
         ]);
       await github.initRepo({ repository: 'some/repo' });
       const res = await github.getBranchStatusCheck(
@@ -1424,18 +1269,9 @@ describe('modules/platform/github/index', () => {
           '/repos/some/repo/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e/statuses',
         )
         .reply(200, [
-          {
-            context: 'context-1',
-            state: 'success',
-          },
-          {
-            context: 'context-2',
-            state: 'pending',
-          },
-          {
-            context: 'context-3',
-            state: 'error',
-          },
+          { context: 'context-1', state: 'success' },
+          { context: 'context-2', state: 'pending' },
+          { context: 'context-3', state: 'error' },
         ]);
       await github.initRepo({ repository: 'some/repo' });
       const res = await github.getBranchStatusCheck('somebranch', 'context-4');
@@ -1449,11 +1285,7 @@ describe('modules/platform/github/index', () => {
         .get(
           '/repos/some/repo/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e/statuses',
         )
-        .reply(200, [
-          {
-            context: 'context-1',
-          },
-        ]);
+        .reply(200, [{ context: 'context-1' }]);
       await github.initRepo({ repository: 'some/repo' });
       const res = await github.getBranchStatusCheck('somebranch', 'context-1');
       expect(res).toBe('yellow');
@@ -1468,12 +1300,7 @@ describe('modules/platform/github/index', () => {
         .get(
           '/repos/some/repo/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e/statuses',
         )
-        .reply(200, [
-          {
-            context: 'some-context',
-            state: 'pending',
-          },
-        ]);
+        .reply(200, [{ context: 'some-context', state: 'pending' }]);
       await github.initRepo({ repository: 'some/repo' });
       await expect(
         github.setBranchStatus({
@@ -1494,18 +1321,9 @@ describe('modules/platform/github/index', () => {
           '/repos/some/repo/commits/0d9c7726c3d628b7e28af234595cfd20febdbf8e/statuses',
         )
         .reply(200, [
-          {
-            context: 'context-1',
-            state: 'state-1',
-          },
-          {
-            context: 'context-2',
-            state: 'state-2',
-          },
-          {
-            context: 'context-3',
-            state: 'state-3',
-          },
+          { context: 'context-1', state: 'state-1' },
+          { context: 'context-2', state: 'state-2' },
+          { context: 'context-3', state: 'state-3' },
         ])
         .post(
           '/repos/some/repo/statuses/0d9c7726c3d628b7e28af234595cfd20febdbf8e',
@@ -2264,13 +2082,15 @@ describe('modules/platform/github/index', () => {
     it('should add the given assignees to the issue', async () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
-      scope.post('/repos/some/repo/issues/42/assignees').reply(200, {
-        number: 42,
-        state: 'open',
-        title: 'title-42',
-        body: 'body-42',
-        updated_at: '2023-01-01T00:00:00Z',
-      });
+      scope
+        .post('/repos/some/repo/issues/42/assignees')
+        .reply(200, {
+          number: 42,
+          state: 'open',
+          title: 'title-42',
+          body: 'body-42',
+          updated_at: '2023-01-01T00:00:00Z',
+        });
       await github.initRepo({ repository: 'some/repo' });
       await expect(
         github.addAssignees(42, ['someuser', 'someotheruser']),
@@ -2383,11 +2203,7 @@ describe('modules/platform/github/index', () => {
       await github.initRepo({ repository: 'some/repo' });
 
       await expect(
-        github.ensureComment({
-          number: 42,
-          topic: null,
-          content: '!merge',
-        }),
+        github.ensureComment({ number: 42, topic: null, content: '!merge' }),
       ).toResolve();
     });
   });
@@ -2442,20 +2258,14 @@ describe('modules/platform/github/index', () => {
         .reply(200, [
           {
             number: 2,
-            head: {
-              ref: 'branch-a',
-              repo: { full_name: 'some/repo' },
-            },
+            head: { ref: 'branch-a', repo: { full_name: 'some/repo' } },
             title: 'branch a pr',
             state: 'open',
             user: { login: 'not-me' },
           },
           {
             number: 1,
-            head: {
-              ref: 'branch-a',
-              repo: { full_name: 'some/repo' },
-            },
+            head: { ref: 'branch-a', repo: { full_name: 'some/repo' } },
             title: 'branch a pr',
             state: 'open',
             user: { login: 'me' },
@@ -2469,10 +2279,7 @@ describe('modules/platform/github/index', () => {
 
       const res = await github.findPr({ branchName: 'branch-a' });
 
-      expect(res).toMatchObject({
-        number: 1,
-        sourceBranch: 'branch-a',
-      });
+      expect(res).toMatchObject({ number: 1, sourceBranch: 'branch-a' });
     });
 
     it('finds PR with non-open state', async () => {
@@ -2667,10 +2474,7 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope
         .post('/repos/some/repo/pulls')
-        .reply(200, {
-          number: 123,
-          head: { repo: { full_name: 'some/repo' } },
-        })
+        .reply(200, { number: 123, head: { repo: { full_name: 'some/repo' } } })
         .post('/repos/some/repo/issues/123/labels')
         .reply(200, []);
       await github.initRepo({ repository: 'some/repo' });
@@ -2687,10 +2491,12 @@ describe('modules/platform/github/index', () => {
     it('should use defaultBranch', async () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
-      scope.post('/repos/some/repo/pulls').reply(200, {
-        number: 123,
-        head: { repo: { full_name: 'some/repo' } },
-      });
+      scope
+        .post('/repos/some/repo/pulls')
+        .reply(200, {
+          number: 123,
+          head: { repo: { full_name: 'some/repo' } },
+        });
       await github.initRepo({ repository: 'some/repo' });
       const pr = await github.createPr({
         sourceBranch: 'some-branch',
@@ -2705,10 +2511,12 @@ describe('modules/platform/github/index', () => {
     it('should create a draftPR if set in the settings', async () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
-      scope.post('/repos/some/repo/pulls').reply(200, {
-        number: 123,
-        head: { repo: { full_name: 'some/repo' }, ref: 'some-branch' },
-      });
+      scope
+        .post('/repos/some/repo/pulls')
+        .reply(200, {
+          number: 123,
+          head: { repo: { full_name: 'some/repo' }, ref: 'some-branch' },
+        });
       await github.initRepo({ repository: 'some/repo' });
       const pr = await github.createPr({
         sourceBranch: 'some-branch',
@@ -2727,13 +2535,10 @@ describe('modules/platform/github/index', () => {
       beforeEach(async () => {
         scope = httpMock.scope(githubApiHost);
         forkInitRepoMock(scope, 'some/repo', false);
-        scope.get('/user').reply(200, {
-          login: 'forked',
-        });
-        scope.post('/repos/some/repo/forks').reply(200, {
-          full_name: 'forked/repo',
-          default_branch: 'master',
-        });
+        scope.get('/user').reply(200, { login: 'forked' });
+        scope
+          .post('/repos/some/repo/forks')
+          .reply(200, { full_name: 'forked/repo', default_branch: 'master' });
 
         await github.initRepo({
           repository: 'some/repo',
@@ -2759,9 +2564,7 @@ describe('modules/platform/github/index', () => {
           prTitle: 'PR title',
           prBody: 'PR can be edited by maintainers.',
           labels: null,
-          platformPrOptions: {
-            forkModeDisallowMaintainerEdits: false,
-          },
+          platformPrOptions: { forkModeDisallowMaintainerEdits: false },
         });
         expect(pr).toMatchObject({ number: 123 });
       });
@@ -2804,9 +2607,7 @@ describe('modules/platform/github/index', () => {
           prTitle: 'PR title',
           prBody: 'PR *cannot* be edited by maintainers.',
           labels: null,
-          platformPrOptions: {
-            forkModeDisallowMaintainerEdits: true,
-          },
+          platformPrOptions: { forkModeDisallowMaintainerEdits: true },
         });
         expect(pr).toMatchObject({ number: 123 });
       });
@@ -2820,13 +2621,7 @@ describe('modules/platform/github/index', () => {
       };
 
       const graphqlAutomergeResp = {
-        data: {
-          enablePullRequestAutoMerge: {
-            pullRequest: {
-              number: 123,
-            },
-          },
-        },
+        data: { enablePullRequestAutoMerge: { pullRequest: { number: 123 } } },
       };
 
       const graphqlAutomergeErrorResp = {
@@ -2895,10 +2690,7 @@ describe('modules/platform/github/index', () => {
               },
             },
           },
-          variables: {
-            pullRequestId: 'abcd',
-            mergeMethod: 'SQUASH',
-          },
+          variables: { pullRequestId: 'abcd', mergeMethod: 'SQUASH' },
         },
       };
 
@@ -2921,15 +2713,11 @@ describe('modules/platform/github/index', () => {
           .head('/')
           .reply(200, '', { 'x-github-enterprise-version': '3.1.7' })
           .get('/user')
-          .reply(200, {
-            login: 'renovate-bot',
-          })
+          .reply(200, { login: 'renovate-bot' })
           .get('/user/emails')
           .reply(200, {})
           .post('/repos/some/repo/pulls')
-          .reply(200, {
-            number: 123,
-          })
+          .reply(200, { number: 123 })
           .post('/repos/some/repo/issues/123/labels')
           .reply(200, []);
 
@@ -2938,9 +2726,7 @@ describe('modules/platform/github/index', () => {
           endpoint: 'https://github.company.com',
           token: '123test',
         });
-        hostRules.find.mockReturnValue({
-          token: '123test',
-        });
+        hostRules.find.mockReturnValue({ token: '123test' });
         await github.initRepo({ repository: 'some/repo' });
         await github.createPr(prConfig);
 
@@ -2957,24 +2743,18 @@ describe('modules/platform/github/index', () => {
           .head('/')
           .reply(200, '', { 'x-github-enterprise-version': '3.3.5' })
           .get('/user')
-          .reply(200, {
-            login: 'renovate-bot',
-          })
+          .reply(200, { login: 'renovate-bot' })
           .get('/user/emails')
           .reply(200, {})
           .post('/repos/some/repo/pulls')
-          .reply(200, {
-            number: 123,
-          })
+          .reply(200, { number: 123 })
           .post('/repos/some/repo/issues/123/labels')
           .reply(200, [])
           .post('/graphql')
           .reply(200, {
             data: {
               repository: {
-                defaultBranchRef: {
-                  name: 'main',
-                },
+                defaultBranchRef: { name: 'main' },
                 nameWithOwner: 'some/repo',
                 autoMergeAllowed: true,
               },
@@ -2986,9 +2766,7 @@ describe('modules/platform/github/index', () => {
           endpoint: 'https://github.company.com',
           token: '123test',
         });
-        hostRules.find.mockReturnValue({
-          token: '123test',
-        });
+        hostRules.find.mockReturnValue({ token: '123test' });
         await github.initRepo({ repository: 'some/repo' });
         await github.createPr(prConfig);
 
@@ -3298,9 +3076,7 @@ describe('modules/platform/github/index', () => {
       await github.initRepo({ repository: 'some/repo' });
       const pr = await github.getPr(1234);
       expect(pr).toMatchObject({
-        bodyStruct: {
-          hash: expect.any(String),
-        },
+        bodyStruct: { hash: expect.any(String) },
         hasAssignees: true,
         number: 1234,
         sourceBranch: 'some/branch',
@@ -3429,16 +3205,12 @@ describe('modules/platform/github/index', () => {
     describe('addLabels', () => {
       it('warns if adding labels failed', async () => {
         const scope = httpMock.scope(githubApiHost);
-        scope.post('/repos/undefined/issues/2/labels').reply(400, {
-          message: 'Failed to add labels',
-        });
+        scope
+          .post('/repos/undefined/issues/2/labels')
+          .reply(400, { message: 'Failed to add labels' });
         await expect(github.addLabels(2, ['fail'])).toResolve();
         expect(logger.logger.warn).toHaveBeenCalledWith(
-          {
-            err: expect.any(Object),
-            issueNo: 2,
-            labels: ['fail'],
-          },
+          { err: expect.any(Object), issueNo: 2, labels: ['fail'] },
           'Error while adding labels. Skipping',
         );
       });
@@ -3462,13 +3234,7 @@ describe('modules/platform/github/index', () => {
     };
 
     const graphqlAutomergeResp = {
-      data: {
-        enablePullRequestAutoMerge: {
-          pullRequest: {
-            number: 123,
-          },
-        },
-      },
+      data: { enablePullRequestAutoMerge: { pullRequest: { number: 123 } } },
     };
 
     const pr: ReattemptPlatformAutomergeConfig = {
@@ -3523,10 +3289,7 @@ describe('modules/platform/github/index', () => {
             },
           },
         },
-        variables: {
-          pullRequestId: 'abcd',
-          mergeMethod: 'SQUASH',
-        },
+        variables: { pullRequestId: 'abcd', mergeMethod: 'SQUASH' },
       },
     };
 
@@ -3607,17 +3370,9 @@ describe('modules/platform/github/index', () => {
         .put('/repos/some/repo/pulls/1234/merge')
         .replyWithError('merge error');
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1234,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1234, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeFalse();
     });
 
@@ -3628,38 +3383,22 @@ describe('modules/platform/github/index', () => {
         .put('/repos/some/repo/pulls/1234/merge')
         .reply(405, { message: 'Required status check "build" is expected.' });
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1234,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1234, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeFalse();
     });
 
     it('should handle approvers required', async () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
-      scope.put('/repos/some/repo/pulls/1234/merge').reply(405, {
-        message: 'Waiting on code owner review from org/team.',
-      });
+      scope
+        .put('/repos/some/repo/pulls/1234/merge')
+        .reply(405, { message: 'Waiting on code owner review from org/team.' });
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1234,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1234, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeFalse();
     });
   });
@@ -3677,9 +3416,7 @@ describe('modules/platform/github/index', () => {
         .head('/')
         .reply(200, '', { 'x-github-enterprise-version': '3.1.7' })
         .get('/user')
-        .reply(200, {
-          login: 'renovate-bot',
-        })
+        .reply(200, { login: 'renovate-bot' })
         .get('/user/emails')
         .reply(200, {});
       initRepoMock(scope, 'some/repo');
@@ -3687,9 +3424,7 @@ describe('modules/platform/github/index', () => {
         endpoint: 'https://github.company.com',
         token: '123test',
       });
-      hostRules.find.mockReturnValue({
-        token: '123test',
-      });
+      hostRules.find.mockReturnValue({ token: '123test' });
       await github.initRepo({ repository: 'some/repo' });
       const input =
         'https://github.com/foo/bar/issues/5 plus also [a link](https://github.com/foo/bar/issues/5)';
@@ -3703,17 +3438,9 @@ describe('modules/platform/github/index', () => {
       initRepoMock(scope, 'some/repo');
       scope.put('/repos/some/repo/pulls/1235/merge').reply(200);
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1235,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1235, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeTrue();
     });
 
@@ -3724,17 +3451,9 @@ describe('modules/platform/github/index', () => {
         .put('/repos/some/repo/pulls/1236/merge')
         .reply(400, 'no squashing allowed');
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1236,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1236, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeFalse();
     });
 
@@ -3749,17 +3468,9 @@ describe('modules/platform/github/index', () => {
         .put('/repos/some/repo/pulls/1237/merge')
         .reply(200);
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1237,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1237, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeTrue();
     });
 
@@ -3776,17 +3487,9 @@ describe('modules/platform/github/index', () => {
         .put('/repos/some/repo/pulls/1237/merge')
         .replyWithError('never gonna give you up');
       await github.initRepo({ repository: 'some/repo' });
-      const pr = {
-        number: 1237,
-        head: {
-          ref: 'someref',
-        },
-      };
+      const pr = { number: 1237, head: { ref: 'someref' } };
       expect(
-        await github.mergePr({
-          branchName: '',
-          id: pr.number,
-        }),
+        await github.mergePr({ branchName: '', id: pr.number }),
       ).toBeFalse();
     });
   });
@@ -3830,16 +3533,11 @@ describe('modules/platform/github/index', () => {
               references: [],
             },
             security_vulnerability: {
-              package: {
-                ecosystem: 'npm',
-                name: 'left-pad',
-              },
+              package: { ecosystem: 'npm', name: 'left-pad' },
               vulnerable_version_range: '0.0.2',
               first_patched_version: { identifier: '0.0.3' },
             },
-            dependency: {
-              manifest_path: 'bar/foo',
-            },
+            dependency: { manifest_path: 'bar/foo' },
           },
           {
             security_advisory: {
@@ -3848,16 +3546,11 @@ describe('modules/platform/github/index', () => {
               references: [],
             },
             security_vulnerability: {
-              package: {
-                ecosystem: 'npm',
-                name: 'foo',
-              },
+              package: { ecosystem: 'npm', name: 'foo' },
               vulnerable_version_range: '0.0.2',
               first_patched_version: null,
             },
-            dependency: {
-              manifest_path: 'bar/foo',
-            },
+            dependency: { manifest_path: 'bar/foo' },
           },
         ]);
       await github.initRepo({ repository: 'some/repo' });
@@ -3908,16 +3601,11 @@ describe('modules/platform/github/index', () => {
               references: [],
             },
             security_vulnerability: {
-              package: {
-                ecosystem: 'npm',
-                name: 'left-pad',
-              },
+              package: { ecosystem: 'npm', name: 'left-pad' },
               vulnerable_version_range: '0.0.2',
               first_patched_version: { identifier: '0.0.3' },
             },
-            dependency: {
-              manifest_path: 'bar/foo',
-            },
+            dependency: { manifest_path: 'bar/foo' },
           },
 
           {
@@ -3927,9 +3615,7 @@ describe('modules/platform/github/index', () => {
               references: [],
             },
             security_vulnerability: null,
-            dependency: {
-              manifest_path: 'bar/foo',
-            },
+            dependency: { manifest_path: 'bar/foo' },
           },
         ]);
       await github.initRepo({ repository: 'some/repo' });
@@ -3956,16 +3642,11 @@ describe('modules/platform/github/index', () => {
               references: [],
             },
             security_vulnerability: {
-              package: {
-                ecosystem: 'pip',
-                name: 'FrIeNdLy.-.BARD',
-              },
+              package: { ecosystem: 'pip', name: 'FrIeNdLy.-.BARD' },
               vulnerable_version_range: '0.0.2',
               first_patched_version: { identifier: '0.0.3' },
             },
-            dependency: {
-              manifest_path: 'bar/foo',
-            },
+            dependency: { manifest_path: 'bar/foo' },
           },
         ]);
       await github.initRepo({ repository: 'some/repo' });
@@ -3979,9 +3660,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
       await github.initRepo({ repository: 'some/repo' });
-      scope.get('/repos/some/repo/contents/file.json').reply(200, {
-        content: '',
-      });
+      scope
+        .get('/repos/some/repo/contents/file.json')
+        .reply(200, { content: '' });
       const res = await github.getJsonFile('file.json');
       expect(res).toBeNull();
     });
@@ -3991,9 +3672,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
       await github.initRepo({ repository: 'some/repo' });
-      scope.get('/repos/some/repo/contents/file.json').reply(200, {
-        content: toBase64(JSON.stringify(data)),
-      });
+      scope
+        .get('/repos/some/repo/contents/file.json')
+        .reply(200, { content: toBase64(JSON.stringify(data)) });
       const res = await github.getJsonFile('file.json');
       expect(res).toEqual(data);
     });
@@ -4008,9 +3689,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
       await github.initRepo({ repository: 'some/repo' });
-      scope.get('/repos/some/repo/contents/file.json5').reply(200, {
-        content: toBase64(json5Data),
-      });
+      scope
+        .get('/repos/some/repo/contents/file.json5')
+        .reply(200, { content: toBase64(json5Data) });
       const res = await github.getJsonFile('file.json5');
       expect(res).toEqual({ foo: 'bar' });
     });
@@ -4020,9 +3701,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'different/repo');
       await github.initRepo({ repository: 'different/repo' });
-      scope.get('/repos/different/repo/contents/file.json').reply(200, {
-        content: toBase64(JSON.stringify(data)),
-      });
+      scope
+        .get('/repos/different/repo/contents/file.json')
+        .reply(200, { content: toBase64(JSON.stringify(data)) });
       const res = await github.getJsonFile('file.json', 'different/repo');
       expect(res).toEqual(data);
     });
@@ -4032,9 +3713,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
       await github.initRepo({ repository: 'some/repo' });
-      scope.get('/repos/some/repo/contents/file.json?ref=dev').reply(200, {
-        content: toBase64(JSON.stringify(data)),
-      });
+      scope
+        .get('/repos/some/repo/contents/file.json?ref=dev')
+        .reply(200, { content: toBase64(JSON.stringify(data)) });
       const res = await github.getJsonFile('file.json', 'some/repo', 'dev');
       expect(res).toEqual(data);
     });
@@ -4043,9 +3724,9 @@ describe('modules/platform/github/index', () => {
       const scope = httpMock.scope(githubApiHost);
       initRepoMock(scope, 'some/repo');
       await github.initRepo({ repository: 'some/repo' });
-      scope.get('/repos/some/repo/contents/file.json').reply(200, {
-        content: toBase64('!@#'),
-      });
+      scope
+        .get('/repos/some/repo/contents/file.json')
+        .reply(200, { content: toBase64('!@#') });
       await expect(github.getJsonFile('file.json')).rejects.toThrow();
     });
 

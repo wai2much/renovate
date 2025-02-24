@@ -18,10 +18,7 @@ describe('util/http/hooks', () => {
       const destroy = jest.fn();
       const response = {
         statusCode,
-        request: {
-          options: { followRedirect },
-          destroy,
-        },
+        request: { options: { followRedirect }, destroy },
       } as never as Response;
 
       expect(isResponseOk(response)).toBe(expected);

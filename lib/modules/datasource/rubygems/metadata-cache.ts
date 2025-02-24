@@ -22,16 +22,9 @@ function hashReleases(releases: ReleaseResult): string {
   return hashVersions(releases.releases.map((release) => release.version));
 }
 
-interface CacheNotFoundError {
-  type: 'cache-not-found';
-}
-interface CacheStaleError {
-  type: 'cache-stale';
-  cache: CacheRecord;
-}
-interface CacheInvalidError {
-  type: 'cache-invalid';
-}
+type CacheNotFoundError = { type: 'cache-not-found' };
+type CacheStaleError = { type: 'cache-stale'; cache: CacheRecord };
+type CacheInvalidError = { type: 'cache-invalid' };
 type CacheLoadError = CacheNotFoundError | CacheStaleError;
 type CacheError = CacheNotFoundError | CacheStaleError | CacheInvalidError;
 
@@ -78,10 +71,7 @@ export class MetadataCache {
           ): Promise<Result<ReleaseResult, CacheError>> => {
             const dataHash = hashReleases(data);
             if (dataHash === versionsHash) {
-              await saveCache({
-                hash: dataHash,
-                data,
-              });
+              await saveCache({ hash: dataHash, data });
               return Result.ok(data);
             }
 

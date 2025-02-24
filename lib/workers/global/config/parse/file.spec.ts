@@ -211,12 +211,7 @@ describe('workers/global/config/parse/file', () => {
     it('skip when config file does not exist', async () => {
       fsPathExistsSpy.mockResolvedValueOnce(false as never);
 
-      await file.deleteNonDefaultConfig(
-        {
-          RENOVATE_CONFIG_FILE: 'path',
-        },
-        true,
-      );
+      await file.deleteNonDefaultConfig({ RENOVATE_CONFIG_FILE: 'path' }, true);
 
       expect(fsRemoveSpy).toHaveBeenCalledTimes(0);
     });
@@ -227,9 +222,7 @@ describe('workers/global/config/parse/file', () => {
         fsPathExistsSpy.mockResolvedValueOnce(true as never);
 
         await file.deleteNonDefaultConfig(
-          {
-            RENOVATE_CONFIG_FILE: '/path/to/config.js',
-          },
+          { RENOVATE_CONFIG_FILE: '/path/to/config.js' },
           deleteConfig === 'true',
         );
 
@@ -245,9 +238,7 @@ describe('workers/global/config/parse/file', () => {
       const configFile = '/path/to/config.js';
 
       await file.deleteNonDefaultConfig(
-        {
-          RENOVATE_CONFIG_FILE: configFile,
-        },
+        { RENOVATE_CONFIG_FILE: configFile },
         true,
       );
 
@@ -267,9 +258,7 @@ describe('workers/global/config/parse/file', () => {
       const configFile = '/path/to/config.js';
 
       await file.deleteNonDefaultConfig(
-        {
-          RENOVATE_CONFIG_FILE: configFile,
-        },
+        { RENOVATE_CONFIG_FILE: configFile },
         true,
       );
 

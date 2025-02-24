@@ -14,6 +14,8 @@ import type {
 } from '../../../modules/manager/types';
 import type { VersioningApi } from '../../../modules/versioning';
 import { get as getVersioning } from '../../../modules/versioning';
+import { findGithubToken } from '../../../util/check-token';
+import { find } from '../../../util/host-rules';
 import { sanitizeMarkdown } from '../../../util/markdown';
 import * as p from '../../../util/promises';
 import { regEx } from '../../../util/regex';
@@ -43,12 +45,15 @@ export class Vulnerabilities {
     rubygems: 'RubyGems',
   };
 
-  private constructor() {
-    // private constructor
-  }
+  private constructor() {}
 
   private async initialize(): Promise<void> {
-    this.osvOffline = await OsvOffline.create();
+    // hard-coded logic to use authentication for github.com based on the githubToken for api.github.com
+    const token = findGithubToken(
+      find({ hostType: 'github', url: 'https://api.github.com/' }),
+    );
+
+    this.osvOffline = await OsvOffline.create(token);
   }
 
   static async create(): Promise<Vulnerabilities> {
@@ -498,9 +503,7 @@ export class Vulnerabilities {
       isVulnerabilityAlert: true,
       vulnerabilitySeverity: severityDetails.severityLevel,
       prBodyNotes: this.generatePrBodyNotes(vulnerability, affected),
-      force: {
-        ...packageFileConfig.vulnerabilityAlerts,
-      },
+      force: { ...packageFileConfig.vulnerabilityAlerts },
     };
   }
 
@@ -610,10 +613,6 @@ export class Vulnerabilities {
       severityLevel = severity.toUpperCase();
     }
 
-    return {
-      cvssVector,
-      score,
-      severityLevel,
-    };
+    return { cvssVector, score, severityLevel };
   }
 }

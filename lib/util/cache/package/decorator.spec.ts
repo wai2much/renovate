@@ -132,10 +132,7 @@ describe('util/cache/package/decorator', () => {
   });
 
   it('computes cache namespace and key from arguments', async () => {
-    interface Arg {
-      foo: 'namespace';
-      bar: 'key';
-    }
+    type Arg = { foo: 'namespace'; bar: 'key' };
 
     class Class {
       @cache({
@@ -185,11 +182,7 @@ describe('util/cache/package/decorator', () => {
 
   describe('Fallbacks with hard TTL', () => {
     class Class {
-      @cache({
-        namespace: '_test-namespace',
-        key: 'key',
-        ttlMinutes: 1,
-      })
+      @cache({ namespace: '_test-namespace', key: 'key', ttlMinutes: 1 })
 
       // Hard TTL is enabled only for `getReleases` and `getDigest` methods
       public getReleases(): Promise<string> {

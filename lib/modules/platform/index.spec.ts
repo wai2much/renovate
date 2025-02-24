@@ -149,11 +149,7 @@ describe('modules/platform/index', () => {
             password: '123',
             username: 'USERNAME',
           },
-          {
-            hostType: 'npm',
-            matchHost: 'npm.pkg.github.com',
-            token: '123',
-          },
+          { hostType: 'npm', matchHost: 'npm.pkg.github.com', token: '123' },
           {
             hostType: 'rubygems',
             matchHost: 'rubygems.pkg.github.com',
@@ -209,11 +205,7 @@ describe('modules/platform/index', () => {
             password: '123',
             username: 'USERNAME',
           },
-          {
-            hostType: 'npm',
-            matchHost: 'npm.pkg.github.com',
-            token: '123',
-          },
+          { hostType: 'npm', matchHost: 'npm.pkg.github.com', token: '123' },
           {
             hostType: 'rubygems',
             matchHost: 'rubygems.pkg.github.com',

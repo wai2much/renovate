@@ -130,11 +130,7 @@ describe('modules/manager/helmv3/artifacts', () => {
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(2);
@@ -155,15 +151,11 @@ describe('modules/manager/helmv3/artifacts', () => {
         packageFileName: 'Chart.yaml',
         updatedDeps: [],
         newPackageFileContent: chartFile,
-        config: { ...config, isLockFileMaintenance: true },
+        config: { ...config, updateType: 'lockFileMaintenance' },
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(2);
@@ -197,11 +189,7 @@ describe('modules/manager/helmv3/artifacts', () => {
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(3);
@@ -226,12 +214,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         config,
       }),
     ).toMatchObject([
-      {
-        artifactError: {
-          lockFile: 'Chart.lock',
-          stderr: 'not found',
-        },
-      },
+      { artifactError: { lockFile: 'Chart.lock', stderr: 'not found' } },
     ]);
   });
 
@@ -258,18 +241,11 @@ describe('modules/manager/helmv3/artifacts', () => {
       packageFileName: 'Chart.yaml',
       updatedDeps,
       newPackageFileContent: chartFile,
-      config: {
-        postUpdateOptions: ['helmUpdateSubChartArchives'],
-        ...config,
-      },
+      config: { postUpdateOptions: ['helmUpdateSubChartArchives'], ...config },
     });
     expect(test).toEqual([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
       {
         file: {
@@ -278,20 +254,13 @@ describe('modules/manager/helmv3/artifacts', () => {
           contents: undefined,
         },
       },
-      {
-        file: {
-          type: 'deletion',
-          path: 'charts/example-1.6.2.tgz',
-        },
-      },
+      { file: { type: 'deletion', path: 'charts/example-1.6.2.tgz' } },
     ]);
     expect(execSnapshots).toMatchObject([
       {
         cmd: 'helm repo add repo-test https://gitlab.com/api/v4/projects/xxxxxxx/packages/helm/stable --force-update',
       },
-      {
-        cmd: "helm dependency update ''",
-      },
+      { cmd: "helm dependency update ''" },
     ]);
   });
 
@@ -331,12 +300,7 @@ describe('modules/manager/helmv3/artifacts', () => {
           contents: undefined,
         },
       },
-      {
-        file: {
-          type: 'deletion',
-          path: 'charts/example-1.6.2.tgz',
-        },
-      },
+      { file: { type: 'deletion', path: 'charts/example-1.6.2.tgz' } },
     ]);
     expect(execSnapshots).toMatchObject([
       {
@@ -382,9 +346,7 @@ describe('modules/manager/helmv3/artifacts', () => {
     // sub chart artifacts
     fs.getSiblingFileName.mockReturnValueOnce('charts');
     git.getRepoStatus.mockResolvedValueOnce(
-      partial<StatusResult>({
-        not_added: ['charts/example-1.9.2.tgz'],
-      }),
+      partial<StatusResult>({ not_added: ['charts/example-1.9.2.tgz'] }),
     );
     const updatedDeps = [{ depName: 'dep1' }];
     expect(
@@ -474,12 +436,7 @@ describe('modules/manager/helmv3/artifacts', () => {
           contents: undefined,
         },
       },
-      {
-        file: {
-          type: 'deletion',
-          path: 'charts/example-1.6.2.tgz',
-        },
-      },
+      { file: { type: 'deletion', path: 'charts/example-1.6.2.tgz' } },
     ]);
     expect(execSnapshots).toMatchObject([
       {
@@ -525,9 +482,7 @@ describe('modules/manager/helmv3/artifacts', () => {
     // sub chart artifacts
     fs.getSiblingFileName.mockReturnValueOnce('charts');
     git.getRepoStatus.mockResolvedValueOnce(
-      partial<StatusResult>({
-        modified: ['example/example.tgz'],
-      }),
+      partial<StatusResult>({ modified: ['example/example.tgz'] }),
     );
     const updatedDeps = [{ depName: 'dep1' }];
     expect(
@@ -589,17 +544,13 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFile,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: { stable: 'the stable_url', repo1: 'the_repo1_url' },
         },
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(4);
@@ -630,17 +581,13 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFile,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: { stable: 'the_stable_url', repo1: 'the_repo1_url' },
         },
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(3);
@@ -676,7 +623,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFile,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {
             stable: 'the_stable_url',
             oci: 'oci://registry.example.com/organization',
@@ -686,11 +633,7 @@ describe('modules/manager/helmv3/artifacts', () => {
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(5);
@@ -726,17 +669,13 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFile,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {},
         },
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(3);
@@ -774,7 +713,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFileECR,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {},
         },
       }),
@@ -791,9 +730,7 @@ describe('modules/manager/helmv3/artifacts', () => {
     const ecr = ecrMock.call(0).thisValue as ECRClient;
     expect(await ecr.config.region()).toBe('us-east-1');
     expect(await ecr.config.credentials()).toEqual({
-      $source: {
-        CREDENTIALS_CODE: 'e',
-      },
+      $source: { CREDENTIALS_CODE: 'e' },
       accessKeyId: 'some-username',
       secretAccessKey: 'some-password',
       sessionToken: 'some-session-token',
@@ -803,9 +740,7 @@ describe('modules/manager/helmv3/artifacts', () => {
       {
         cmd: 'helm registry login --username token-username --password token-password 123456789.dkr.ecr.us-east-1.amazonaws.com',
       },
-      {
-        cmd: "helm dependency update ''",
-      },
+      { cmd: "helm dependency update ''" },
     ]);
   });
 
@@ -840,7 +775,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFileECR,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {},
         },
       }),
@@ -860,16 +795,12 @@ describe('modules/manager/helmv3/artifacts', () => {
       {
         cmd: 'helm registry login --username AWS --password some-password 123456789.dkr.ecr.us-east-1.amazonaws.com',
       },
-      {
-        cmd: "helm dependency update ''",
-      },
+      { cmd: "helm dependency update ''" },
     ]);
   });
 
   it('continues without auth if the ECR token is invalid', async () => {
-    mockEcrAuthResolve({
-      authorizationData: [{ authorizationToken: ':' }],
-    });
+    mockEcrAuthResolve({ authorizationData: [{ authorizationToken: ':' }] });
 
     hostRules.add({
       username: 'some-username',
@@ -895,7 +826,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFileECR,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {},
         },
       }),
@@ -912,19 +843,13 @@ describe('modules/manager/helmv3/artifacts', () => {
     const ecr = ecrMock.call(0).thisValue as ECRClient;
     expect(await ecr.config.region()).toBe('us-east-1');
     expect(await ecr.config.credentials()).toEqual({
-      $source: {
-        CREDENTIALS_CODE: 'e',
-      },
+      $source: { CREDENTIALS_CODE: 'e' },
       accessKeyId: 'some-username',
       secretAccessKey: 'some-password',
       sessionToken: 'some-session-token',
     });
 
-    expect(execSnapshots).toMatchObject([
-      {
-        cmd: "helm dependency update ''",
-      },
-    ]);
+    expect(execSnapshots).toMatchObject([{ cmd: "helm dependency update ''" }]);
   });
 
   it('continues without auth if ECR authentication fails', async () => {
@@ -954,7 +879,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFileECR,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {},
         },
       }),
@@ -971,19 +896,13 @@ describe('modules/manager/helmv3/artifacts', () => {
     const ecr = ecrMock.call(0).thisValue as ECRClient;
     expect(await ecr.config.region()).toBe('us-east-1');
     expect(await ecr.config.credentials()).toEqual({
-      $source: {
-        CREDENTIALS_CODE: 'e',
-      },
+      $source: { CREDENTIALS_CODE: 'e' },
       accessKeyId: 'some-username',
       secretAccessKey: 'some-password',
       sessionToken: 'some-session-token',
     });
 
-    expect(execSnapshots).toMatchObject([
-      {
-        cmd: "helm dependency update ''",
-      },
-    ]);
+    expect(execSnapshots).toMatchObject([{ cmd: "helm dependency update ''" }]);
   });
 
   it('alias name is picked, when repository is as alias and dependency defined', async () => {
@@ -1009,7 +928,7 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFile,
         config: {
           ...config,
-          isLockFileMaintenance: true,
+          updateType: 'lockFileMaintenance',
           registryAliases: {
             repo1:
               'https://gitlab.com/api/v4/projects/xxxxxxx/packages/helm/stable',
@@ -1018,11 +937,7 @@ describe('modules/manager/helmv3/artifacts', () => {
       }),
     ).toMatchObject([
       {
-        file: {
-          type: 'addition',
-          path: 'Chart.lock',
-          contents: ociLockFile2,
-        },
+        file: { type: 'addition', path: 'Chart.lock', contents: ociLockFile2 },
       },
     ]);
     expect(execSnapshots).toBeArrayOfSize(2);
@@ -1057,10 +972,8 @@ describe('modules/manager/helmv3/artifacts', () => {
         newPackageFileContent: chartFileAlias,
         config: {
           ...config,
-          isLockFileMaintenance: true,
-          registryAliases: {
-            jetstack: 'https://charts.jetstack.io',
-          },
+          updateType: 'lockFileMaintenance',
+          registryAliases: { jetstack: 'https://charts.jetstack.io' },
         },
       }),
     ).toMatchObject([

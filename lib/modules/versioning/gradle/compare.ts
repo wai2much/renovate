@@ -1,15 +1,9 @@
 import is from '@sindresorhus/is';
 import { regEx } from '../../../util/regex';
 
-export const TokenType = {
-  Number: 1,
-  String: 2,
-};
+export const TokenType = { Number: 1, String: 2 };
 
-interface Token {
-  type: number;
-  val: string | number;
-}
+type Token = { type: number; val: string | number };
 
 function iterateChars(
   str: string,
@@ -52,15 +46,9 @@ export function tokenize(versionStr: string): Token[] | null {
     if (result) {
       const val = currentVal;
       if (regEx(/^\d+$/).test(val)) {
-        result.push({
-          type: TokenType.Number,
-          val: parseInt(val, 10),
-        });
+        result.push({ type: TokenType.Number, val: parseInt(val, 10) });
       } else {
-        result.push({
-          type: TokenType.String,
-          val,
-        });
+        result.push({ type: TokenType.String, val });
       }
     }
   }

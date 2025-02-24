@@ -52,10 +52,7 @@ describe('workers/global/config/parse/index', () => {
 
     it('supports forceCli', async () => {
       defaultArgv = defaultArgv.concat(['--force-cli=false']);
-      const env: NodeJS.ProcessEnv = {
-        ...defaultEnv,
-        RENOVATE_TOKEN: 'abc',
-      };
+      const env: NodeJS.ProcessEnv = { ...defaultEnv, RENOVATE_TOKEN: 'abc' };
       const parsedConfig = await configParser.parseConfigs(env, defaultArgv);
       expect(parsedConfig).toContainEntries([
         ['token', 'abc'],
@@ -73,12 +70,7 @@ describe('workers/global/config/parse/index', () => {
       const parsedConfig = await configParser.parseConfigs(env, defaultArgv);
       expect(parsedConfig).toContainEntries([
         ['token', 'abcdefg'],
-        [
-          'force',
-          {
-            schedule: null,
-          },
-        ],
+        ['force', { schedule: null }],
       ]);
     });
 
@@ -174,9 +166,7 @@ describe('workers/global/config/parse/index', () => {
     });
 
     it('only initializes the file when the env var LOG_FILE is properly set', async () => {
-      jest.doMock('../../../../../config.js', () => ({}), {
-        virtual: true,
-      });
+      jest.doMock('../../../../../config.js', () => ({}), { virtual: true });
       const env: NodeJS.ProcessEnv = {};
       const parsedConfig = await configParser.parseConfigs(env, defaultArgv);
       expect(parsedConfig).not.toContain([['logFile', 'someFile']]);
@@ -187,9 +177,7 @@ describe('workers/global/config/parse/index', () => {
       jest.doMock(
         '../../../../../config.js',
         () => ({ onboardingNoDeps: 'auto', autodiscover: false }),
-        {
-          virtual: true,
-        },
+        { virtual: true },
       );
       const env: NodeJS.ProcessEnv = {};
       const parsedConfig = await configParser.parseConfigs(env, defaultArgv);

@@ -26,10 +26,7 @@ describe('modules/datasource/git-tags/index', () => {
     process.env = {};
 
     // reset git mock
-    gitMock = {
-      env: jest.fn(),
-      listRemote: jest.fn(),
-    };
+    gitMock = { env: jest.fn(), listRemote: jest.fn() };
 
     simpleGitFactoryMock.mockReturnValue(gitMock);
     gitMock.env.mockImplementation(() => gitMock as unknown as SimpleGit);
@@ -53,10 +50,7 @@ describe('modules/datasource/git-tags/index', () => {
     it('returns versions filtered from tags', async () => {
       gitMock.listRemote.mockResolvedValue(lsRemote1);
 
-      const versions = await getPkgReleases({
-        datasource,
-        packageName,
-      });
+      const versions = await getPkgReleases({ datasource, packageName });
       expect(versions).toMatchSnapshot();
     });
   });
